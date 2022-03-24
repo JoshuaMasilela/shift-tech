@@ -34,7 +34,6 @@ export default function validateInfo(values) {
         // errors.cname = true;
         errors.message = "Cardholder name is invalid";
     }
-    console.log(cCard.cardholderName.isValid)
 
     //Card Number Verification
     if (values.number === null || !values.number.trim()) {
@@ -47,8 +46,6 @@ export default function validateInfo(values) {
         errors.message = "Credit card number is invalid";
     }
 
-    console.log(cCard.isValid)
-
     //Card Expiration Date Verification
     if (values.exp === null || !values.exp.trim()) {
         errors.message = "Credit card expiration date is not complete";
@@ -59,8 +56,7 @@ export default function validateInfo(values) {
         // errors.cexp = true;
         errors.message = "Credit card expiration date is invalid";
     }
-    console.log(cCard.expirationDate.isValid)
-
+  
     //Card CVV expiration
     if (values.cvv === null || !values.cvv.trim()) {
         errors.message = "Credit card cvv is not complete";
@@ -80,12 +76,10 @@ export default function validateInfo(values) {
         &&
         errors.ccvv !==true
      
-     
       ) {
         errors.variant = "success";
-        errors.message = "Credit Card is valid";
+        errors.message = "Credit Card is valid";  
       }
 
-      console.log(errors.message)
     return errors
 }

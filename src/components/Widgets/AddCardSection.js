@@ -18,6 +18,8 @@ export default function AddCardSection({
   const [focus, setFocus] = useState('');
   //custom hooks
   const { handleChange, handleSubmit, values, errors } = useForm();
+
+  
   return (
     <AddCardContainer>
       <AddCardTitle>{title}</AddCardTitle>

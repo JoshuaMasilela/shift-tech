@@ -20,17 +20,42 @@ const useForm = () => {
         setValues({
             ...values,
             [name]: value
-        })
+        });
     }
 
+    //store card details
+    const storeInfo = async () => {
+
+        try {
+            // Get array from local storage, defaulting to empty array if it's not yet set
+            let itemsArray = sessionStorage.getItem('cardDetails') ? JSON.parse(sessionStorage.getItem('cardDetails')) : [];
+
+            // create values as objects
+            const cardInfo = {
+                name: values.name,
+                card_number: values.number
+            };
+
+            //push data into array
+            itemsArray.push(cardInfo);
+
+            //add new data to array
+            await sessionStorage.setItem('cardDetails', JSON.stringify(itemsArray));
+        } catch (error) {
+            console.log(error);
+        }
+    }
     //handle submit actions and validation check
     const handleSubmit = e => {
-
         //prevent default
         e.preventDefault();
 
-        //set Errors by checking validate info against values
-        setErrors(validateInfo(values))
+        setErrors(validateInfo(values));
+
+        if (errors.variant === 'success') {
+            storeInfo()
+     
+        } 
     }
 
     return { handleChange, handleSubmit, values, errors };
