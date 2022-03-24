@@ -11,4 +11,5 @@ margin-right: 20px;
 export const ViewCardsTitle = styled.span`
 font-size: 22px;
 font-weight: 600;
+text-decoration: underline;
 `;

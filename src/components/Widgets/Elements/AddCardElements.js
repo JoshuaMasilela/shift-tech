@@ -9,5 +9,6 @@ padding: 20px;
 
 export const AddCardTitle = styled.h3`;
 font-size: 22px;
-font-weight: 600;
+font-weight: 600
+text-decoration: underline;
 `;
