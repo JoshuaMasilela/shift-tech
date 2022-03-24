@@ -1,7 +1,12 @@
 import React from 'react'
+import { ViewCardsContainer, ViewCardsTitle } from './Elements/ViewCardsElements'
 
-export default function ViewCardsSection() {
+export default function ViewCardsSection({
+  title
+}) {
   return (
-    <div>ViewCardsSection</div>
+  <ViewCardsContainer>
+    <ViewCardsTitle>{title}</ViewCardsTitle>
+  </ViewCardsContainer>
   )
 }

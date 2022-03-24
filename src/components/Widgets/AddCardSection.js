@@ -1,7 +1,12 @@
 import React from 'react'
+import { AddCardContainer, AddCardTitle } from './Elements/AddCardElements'
 
-export default function AddCardSection() {
+export default function AddCardSection({
+  title
+}) {
   return (
-    <div>AddCardSection</div>
+    <AddCardContainer>
+      <AddCardTitle>{title}</AddCardTitle>
+    </AddCardContainer>
   )
 }
