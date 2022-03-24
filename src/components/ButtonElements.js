@@ -14,6 +14,7 @@ outline: none !important;
 cursor: pointer !important;
 display: flex !important;
 justify-content: center;
+margin-top: 10px;
 align-items: center;
 transition: all 0..2s ease-in-out;
 &:hover {

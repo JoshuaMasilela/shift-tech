@@ -12,7 +12,7 @@ const useForm = () => {
     });
 
     //set errors state
-    const [errors, setErrors] = useState();
+    const [errors, setErrors] = useState({});
 
     //handle card inputs value change
     const handleChange = (e) => {

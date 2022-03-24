@@ -37,22 +37,18 @@ export const FormContent = styled.form`
 display: flex;
 `;
 
-export const FormInput = styled.input`
-padding: .375rem .75rem;
-font-siz: 1rem;
-line-height: 1.5;
-color:#010606;
-background-color:#fff;
-background-clip: #00BBFF;
-border 1px solid #010606;
-border-radius: .25rem;
-margin: 3px;
-width: 11.8rem;
+export const FormInput = styled(TextField)`
+magin-top: '10px';
 align-self: center;
 display: flex;
+spacing: 2rem
 `;
 
-export const FormContentInput = styled.input`
+export const FormInputWrap = styled.div`
+margin-top:10px;
+`;
+
+export const FormContentInput =styled(TextField)`
 padding: .375rem .75rem;
 font-siz: 1rem;
 line-height: 1.5;
@@ -68,6 +64,4 @@ margin-left: 3px;
 export const BtnWrap = styled.div`
 display: flex;
 justify-content: center;
-align-items: center;
-margin-top: 5px;
 `;
