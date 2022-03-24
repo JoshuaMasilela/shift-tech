@@ -8,7 +8,7 @@ const useForm = () => {
         name: "",
         number: '',
         exp: '',
-        cvc: '',
+        cvv: '',
     });
 
     //set errors state

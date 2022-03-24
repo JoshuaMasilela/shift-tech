@@ -22,7 +22,7 @@ export default function AddCardSection({
     <AddCardContainer>
       <AddCardTitle>{title}</AddCardTitle>
       <Cards
-        cvc={values.cvc}
+        cvv={values.cvv}
         expiry={values.exp}
         focused={focus}
         name={values.name}
@@ -78,11 +78,12 @@ export default function AddCardSection({
               <FormInputWrap>
                 <FormContentInput
                   type='number'
-                  label='CVC'
-                  value={values.cvc}
-                  name='cvc'
+                  label='cvv'
+                  value={values.cvv}
+                  name='cvv'
                   size='small'
                   onChange={handleChange}
+                  error={errors.ccvv}
                   onFocus={e => setFocus(e.target.name)}
                 />
               </FormInputWrap>
