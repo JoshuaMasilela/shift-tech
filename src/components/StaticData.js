@@ -12,5 +12,5 @@ export const smlWidgetObj = {
 
 ///large widget object 
 export const lrgWidgetObj = {
-    titke: "Add new Credit Card"
+    title: "Add new Credit Card"
 };
