@@ -1,30 +1,39 @@
 import { useState } from "react";
+import validateInfo from "./validateInfo";
 
-const useForm = () =>{
+const useForm = () => {
 
-    const [ values, setValues ] =useState({
-        name:'',
-        number:'',
-        exp:'',
-        cvc:'',
-        focus:''
+    //set required variable state
+    const [values, setValues] = useState({
+        name: "",
+        number: '',
+        exp: '',
+        cvc: '',
     });
 
-    const [ erros, setErrors ] = useState('');
+    //set errors state
+    const [errors, setErrors] = useState();
 
-
-    const handleChange = e =>{
-
+    //handle card inputs value change
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setValues({
+            ...values,
+            [name]: value
+        })
     }
 
-    const handleFocus = e =>{
+    //handle submit actions and validation check
+    const handleSubmit = e => {
 
+        //prevent default
+        e.preventDefault();
+
+        //set Errors by checking validate info against values
+        setErrors(validateInfo(values))
     }
 
-    const handleSubmit = e =>{
-
-    }
-
-   return { handleChange, handleFocus, handleSubmit, values, errors}
+    return { handleChange, handleSubmit, values, errors };
 }
 
+export default useForm;
