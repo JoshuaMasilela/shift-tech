@@ -14,3 +14,11 @@ export const smlWidgetObj = {
 export const lrgWidgetObj = {
     title: "Add new Credit Card"
 };
+
+//submit card button static object data 
+export const submitButtonObj = {
+    primary: true,
+    big: false,
+    dark: true,
+    fontBig: false,
+}

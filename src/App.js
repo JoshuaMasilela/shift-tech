@@ -1,5 +1,5 @@
 import Navbar from "./components/NavBar/Navbar";
-import { navObj } from "./components/StaticData";
+import { navObj } from "./components/ObjData";
 import HomeScreen from "./screens/home";
 
 
