@@ -38,12 +38,15 @@ export default function ViewCardsSection({
 
       const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString();
 
+      // mask card number
+      const masked_card_number = cardNo.replace(/^[\d-\s]+(?=\d{4})/, "************");
+  
       // var cardCvv = CryptoJS.AES.decrypt(item.cvv, key);
       // var cardExpDate = CryptoJS.AES.decrypt(item.expiry_date, key);
       return{
         id: index,
         cardHolder: item.name,
-        cardNumber: cardNo,
+        cardNumber: masked_card_number,
       }
     })
     return (
