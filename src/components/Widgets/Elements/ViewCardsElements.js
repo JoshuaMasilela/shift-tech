@@ -13,3 +13,38 @@ font-size: 22px;
 font-weight: 600;
 text-decoration: underline;
 `;
+
+export const ViewWidgetWrapper = styled.div`
+display: flex;
+margin: 5px;
+align-items: center;
+justify-content: center;
+`;
+
+export const ViewWidgetTable = styled.table`;
+width: 100%;
+border-spacing: 20px;
+`;
+
+export const ViewWidgetTableBody = styled.tbody`
+background-color: #fff;
+`;
+export const ViewWidgetTableRow1 = styled.tr`;
+background-color: #fff;
+`;
+
+export const ViewWidgetTableHeader = styled.th`;
+text-align: left;
+`;
+
+
+export const ViewWidgetTableRow2 = styled.tr`;
+justify-content: center;
+align-items: center;
+`;
+
+export const ViewWidgetTableDataUser = styled.td`;
+display: flex;
+align-items: center;
+font-weight: 600;
+`;
