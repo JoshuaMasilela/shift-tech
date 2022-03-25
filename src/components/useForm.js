@@ -71,10 +71,12 @@ const useForm = () => {
         //prevent default
         e.preventDefault();
 
-        setErrors(validateInfo(values));
+      await setErrors(validateInfo(values));
 
         if (errors.variant === 'success') {
           await  storeInfo();
+          //refresh page after success
+          window.location.reload();
      
         } 
     }
