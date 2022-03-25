@@ -9,6 +9,15 @@ flex:3;
 box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 padding: 20px;
 margin-right: 20px;
+
+@media screen and (max-width: 980px){
+flex:1;
+-webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+padding: 20px;
+margin-right: 20px;
+}
+
 `;
 
 export const ViewCardsTitle = styled.span`

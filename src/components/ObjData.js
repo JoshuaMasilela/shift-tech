@@ -1,7 +1,7 @@
 import { IconButton } from '@mui/material';
 import Logo from '../assets/svg/credit.svg'
 import { ActionsContainer, ActionToolTip, DeactivateAction, DeleteAction, EditAction, IconLink, StatusContainer, StatusText } from './Widgets/Elements/ViewCardsElements';
-
+import AvatarSvg from '../assets/svg/person.svg';
 ///nav bar object 
 export const navObj = {
     logo: Logo
@@ -94,4 +94,19 @@ export const submitButtonObj = {
 //encryption and decryption key
 export const decryptKey = {
     key: "123"
+}
+
+//edit user Card Details
+
+export const editObj = {
+  id: 'edit',
+        lightBg: true,
+        lightText: false,
+        lightTextDesc: false,
+        imgStart: true,
+        img: AvatarSvg,
+        alt: 'avatar',
+        dark: true,
+        primary: false,
+        darkText: true,
 }

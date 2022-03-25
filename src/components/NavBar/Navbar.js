@@ -16,18 +16,15 @@ const Navbar = ({ logo }) => {
         <>
             <Nav>
                 <NavbarContainer>
-                    <NavLogo src={logo} />
+                    <NavLinks
+                        to="/"
+                    >
+                        <NavLogo src={logo} />
+                    </NavLinks>
+
                 </NavbarContainer>
 
-                <NavMenu>
-                    <NavItem>
-                        <NavLinks
-                            to="/"
-                          >
-                                <HomeIcon/>
-                            </NavLinks>
-                    </NavItem>
-                </NavMenu>
+
             </Nav>
         </>
     );
