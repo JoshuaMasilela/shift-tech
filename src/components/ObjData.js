@@ -11,7 +11,7 @@ export const navObj = {
 export const smlWidgetObj = {
     title: "View Credit Cards",
     columns: [
-        { field: 'id', headerName: 'ID', width: 70 },
+        { field: 'id', headerName: 'ID', width: 10 },
         {
             field: 'cardHolder',
             headerName: 'Card holder name',
@@ -39,16 +39,15 @@ export const smlWidgetObj = {
                 };
                 return (
                   <ActionsContainer>
-        
+        {/* pass card details to edit user screen as props */}
                     <IconLink
                       to={"/edit_user/" + params.row.id}
                       state={{
-                        avatar: params.row.avatar,
-                        name: params.row.user,
-                        surname: params.row.surname,
-                        number: params.row.number,
-                        email: params.row.email,
-                        address: params.row.address,
+                        card_holder: params.row.cardHolder,
+                        card_number: params.row.cardNumber,
+                        timeStamp: params.row.timeStamp,
+                        card_cvv:params.row.cvv,
+                        card_exp:params.row.expiry_date,
                       }}
                     >
                       <ActionToolTip title="Edit User info.">
@@ -74,6 +73,11 @@ export const smlWidgetObj = {
                 )
               }
         },
+        {
+          field: 'timeStamp',
+          headerName: 'Created At',
+          width: 200
+      },
     ],
 
 };

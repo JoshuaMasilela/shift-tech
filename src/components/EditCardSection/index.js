@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   Column1,
   Column2,
@@ -20,11 +21,25 @@ export default function EditCardSection({
   darkText,
   img,
   lightTextDesc,
-  alt
+  alt,
+  
 }) {
   //document name
   document.title = "Edit";
-  
+
+  // useLocation to get state params
+  const location = useLocation();
+
+  //declare params as child state
+  const {
+    card_holder,
+    card_number,
+    timeStamp,
+    card_exp,
+    card_cvv
+    
+  } = location.state
+
   return (
     <EditContainer>
 
@@ -33,9 +48,11 @@ export default function EditCardSection({
         <EditRow imgStart={imgStart}>
           <Column1>
             <TextWrapper>
-              <EditHeading lightText={lightText}>Edit Card</EditHeading>
-              <Heading lightTextDesc={lightTextDesc}>{ }</Heading>
-              <Subheading darkText={darkText}>{ }</Subheading>
+              <EditHeading lightText={lightText}>{card_holder}</EditHeading>
+              <Heading lightTextDesc={lightTextDesc}>{card_number }</Heading>
+              <Heading lightTextDesc={lightTextDesc}>{card_cvv }</Heading>
+              <Heading lightTextDesc={lightTextDesc}>{card_exp }</Heading>
+              <Subheading darkText={darkText}>{ timeStamp}</Subheading>
             </TextWrapper>
           </Column1>
 

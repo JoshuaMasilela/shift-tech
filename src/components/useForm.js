@@ -29,8 +29,9 @@ const useForm = () => {
 
     //store card details
     const storeInfo = async () => {
-        await setErrors(validateInfo(values));
+        
         try {
+          await setErrors(validateInfo(values));
             if (errors.variant === 'success') {
                 //get encryption env key
                 const SECRET_KEY = await decryptKey.key;
@@ -42,10 +43,11 @@ const useForm = () => {
                 // encrypt card number
                 // encrypt card cvv
                 // encrypt card expiry_date
-
-                const card_number = await CryptoJS.AES.encrypt(values.number.toString(), SECRET_KEY).toString();
-                const card_cvv = await CryptoJS.AES.encrypt(values.cvv.toString(), SECRET_KEY).toString();
-                const card_exp_date = await CryptoJS.AES.encrypt(values.exp.toString(), SECRET_KEY).toString();
+console.log("USer input cvv: "+ values.cvv)
+console.log("USer input exp: "+ values.exp)
+                const card_number = await CryptoJS.AES.encrypt(values.number, SECRET_KEY).toString();
+                const card_cvv = await CryptoJS.AES.encrypt(values.cvv, SECRET_KEY).toString();
+                const card_exp_date = await CryptoJS.AES.encrypt(values.exp, SECRET_KEY).toString();
 
                 // create values as objects
                 const cardInfo = {

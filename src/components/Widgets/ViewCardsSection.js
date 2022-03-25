@@ -3,6 +3,7 @@ import { ViewCardsContainer, ViewCardsTitle, ViewWidgetTable, ViewWidgetTableBod
 import { DataGrid } from '@mui/x-data-grid';
 import CryptoJS from 'crypto-js';
 import { decryptKey } from '../ObjData'
+import moment from 'moment';
 export default function ViewCardsSection({
   title,
   columns,
@@ -14,12 +15,12 @@ export default function ViewCardsSection({
 
   //create local variable
   const [cardData, setCardData] = useState([]);
-  const [ rows, setRows ] = useState([]);
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
     getData();
 
-    
+
   }, [])
 
   //get card details from session storage
@@ -30,46 +31,57 @@ export default function ViewCardsSection({
     //set data to cardData array
     setCardData(data);
   }
+  // 4023943091203902
+  if(cardData){
+  //map out data into row
+  const rowData = cardData.map((item, index) => {
+    //decryt data ( card_number, exp_date, cvv)
+    const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString(CryptoJS.enc.Utf8);
+    const cardCvv = CryptoJS.AES.decrypt(item.cvv, "123").toString(CryptoJS.enc.Utf8);
+    const cardExpDate = CryptoJS.AES.decrypt(item.expiry_date, decryptKey.key).toString(CryptoJS.enc.Utf8);
 
-  if (cardData) {
-    const rowData = cardData.map((item, index) =>{
+    // mask card number, cvv, expiry date
+    const masked_card_number = cardNo.replace(/^[\d-\s]+(?=\d{4})/, "************");
+    const masked_card_cvv = cardCvv.replace(/.+(.{0})$/, "******");
+    const masked_exp_date = cardExpDate.replace(/.+(.{0})$/, "****"+"/"+"****");
 
-      //decryt data ( card_number, exp_date, cvv)
+    return {
+      id: index,
+      cardHolder: item.name,
+      cardNumber: masked_card_number,
+      timeStamp: moment(item.timeStamp).format("DD-MM-YY HH:mm:ss A"),
 
-      const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString();
+      //not displayed but passed for edit screen
+      cvv: masked_card_cvv,
+      expiry_date:masked_exp_date 
+    }
+  })
 
-      // mask card number
-      const masked_card_number = cardNo.replace(/^[\d-\s]+(?=\d{4})/, "************");
-  
-      // var cardCvv = CryptoJS.AES.decrypt(item.cvv, key);
-      // var cardExpDate = CryptoJS.AES.decrypt(item.expiry_date, key);
-      return{
-        id: index,
-        cardHolder: item.name,
-        cardNumber: masked_card_number,
-      }
-    })
-    return (
-      <ViewCardsContainer>
+  return (
+    <ViewCardsContainer>
 
-        <ViewCardsTitle>{title}</ViewCardsTitle>
-        <DataGrid
+      <ViewCardsTitle>{title}</ViewCardsTitle>
+      <DataGrid
         columns={columns}
         rows={rowData}
         pageSize={6}
         rowsPerPageOptions={[5]}
         checkboxSelection
-        disableSelectionOnClick/>
- 
-      </ViewCardsContainer>
-    )
-  } else {
-    return (
+        disableSelectionOnClick />
+
+    </ViewCardsContainer>
+  )
+  }else{
+    return(
       <ViewCardsContainer>
 
-        <ViewCardsTitle>{title}</ViewCardsTitle>
-        <span>no data</span>
-      </ViewCardsContainer>
+      <ViewCardsTitle>{title}</ViewCardsTitle>
+    <ViewWidgetWrapper>
+      <span>No Data</span>
+    </ViewWidgetWrapper>
+
+    </ViewCardsContainer>
     )
   }
+
 }

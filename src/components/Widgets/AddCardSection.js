@@ -32,7 +32,7 @@ export default function AddCardSection({
 
       <CardWrapper>
         <CardContainer>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <FormInputWrap>
               <FormInput
                 type='text'
@@ -41,6 +41,7 @@ export default function AddCardSection({
                 name='name'
                 size='small'
                 fullWidth
+                placeholder='eg. Mr.J Smith'
                 variant='outlined'
                 onChange={handleChange}
                 onFocus={e => setFocus(e.target.name)}
@@ -55,6 +56,7 @@ export default function AddCardSection({
                 label='Card Number'
                 value={values.number}
                 name='number'
+                placeholder='46579387504984'
                 fullWidth
                 size='small'
                 onChange={handleChange}
@@ -71,6 +73,7 @@ export default function AddCardSection({
                   variant='outlined'
                   name='exp'
                   size='small'
+                  placeholder='MM/YY'
                   error={errors.cexp}
                   onChange={handleChange}
                   onFocus={e => setFocus(e.target.name)}
@@ -81,6 +84,7 @@ export default function AddCardSection({
                 <FormContentInput
                   type='number'
                   label='cvv'
+                  placeholder='111'
                   value={values.cvv}
                   name='cvv'
                   size='small'
@@ -93,7 +97,7 @@ export default function AddCardSection({
 
             <BtnWrap>
               <SubmitCardButton
-                onClick={handleSubmit}
+                type="submit"
                 primary={primary ? 1 : 0}
                 dark={dark ? 1 : 0}
                 fontBig={fontBig ? 1 : 0}

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 export const AddCardContainer = styled.div`;
-flex:3;
+flex:2;
 -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 padding: 20px;
@@ -35,7 +35,7 @@ export const CardContainer = styled.div`
   justify-content: center;
 `;
 
-export const Form = styled.div`
+export const Form = styled.form`
 margin-top: 15px;
 align-content: center;
 justify-content: center;
