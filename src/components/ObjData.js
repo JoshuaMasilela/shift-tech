@@ -15,7 +15,7 @@ export const smlWidgetObj = {
         {
             field: 'cardHolder',
             headerName: 'Card holder name',
-            width: 130,
+            width: 170,
             sortable: true,
         },
         {
@@ -23,25 +23,13 @@ export const smlWidgetObj = {
             headerName: 'Card Number',
             width: 130
         },
-        {
-            field: 'status',
-            headerName: 'Status',
-            width: 90,
-            renderCell: (params) => {
-                return (
-                    <StatusContainer
-                        status={params.row.status === "Active" ? 1 : 0}>
-                        <StatusText>{params.row.status}</StatusText>
-                    </StatusContainer>
-                )
-            }
-        },
+      
         {
             field: 'actions',
             headerName: 'Actions',
             description: 'This column has a value getter and is not sortable.',
             sortable: false,
-            width: 160,
+            width: 90,
             renderCell: (params) => {
                 const data = [];
                 const handleDelete = (id) => {
@@ -60,7 +48,6 @@ export const smlWidgetObj = {
                         surname: params.row.surname,
                         number: params.row.number,
                         email: params.row.email,
-                        status: params.row.status,
                         address: params.row.address,
                       }}
                     >
@@ -75,18 +62,13 @@ export const smlWidgetObj = {
                       </ActionToolTip>
                     </IconLink>
         
-                    <ActionToolTip title="Delete User Account.">
+                    <ActionToolTip title="Delete User Info.">
                       <IconButton>
                         <DeleteAction />
                       </IconButton>
                     </ActionToolTip>
         
         
-                    <ActionToolTip title="Deactivate User Account.">
-                      <IconButton>
-                        <DeactivateAction />
-                      </IconButton>
-                    </ActionToolTip>
         
                   </ActionsContainer>
                 )
