@@ -8,6 +8,7 @@ import ViewEditScreen from "./screens/edit";
 function App() {
   return (
  <Router>
+   <Navbar {...navObj}/>
    <Routes>
      <Route
      path="/"
