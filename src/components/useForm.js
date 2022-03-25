@@ -2,6 +2,8 @@ import { useState } from "react";
 import validateInfo from "./validateInfo";
 import CryptoJS from 'crypto-js';
 import {decryptKey} from './ObjData';
+import { number } from "card-validator";
+import { cvv } from "card-validator/dist/cvv";
 
 const useForm = () => {
     
@@ -35,17 +37,27 @@ const useForm = () => {
             let itemsArray = await sessionStorage.getItem('cardDetails') ? JSON.parse(sessionStorage.getItem('cardDetails')) : [];
 
 
-            //encypt details
+            // encypt card details
+            // encrypt card number
+            // encrypt card cvv
+            // encrypt card expiry_date
+
             const card_number = await CryptoJS.AES.encrypt(values.number.toString(), SECRET_KEY).toString();
+            const card_cvv = await CryptoJS.AES.encrypt(values.cvv.toString(), SECRET_KEY).toString();
+            const card_exp_date = await CryptoJS.AES.encrypt(values.exp.toString(), SECRET_KEY).toString();
+
             // create values as objects
             const cardInfo = {
                 name: values.name,
                 card_number: card_number,
-                cvv: values.cvv,
-                expiry_date: values.exp
+                cvv:card_cvv ,
+                expiry_date:card_exp_date,
+                timestamp: new Date(), 
             };
 
-            //push data into array
+            console.log(cardInfo)
+
+            //push encrypted data into array
             await itemsArray.push(cardInfo)
 
             //add new data to array
