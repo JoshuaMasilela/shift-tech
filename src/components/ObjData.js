@@ -22,3 +22,8 @@ export const submitButtonObj = {
     dark: true,
     fontBig: false,
 }
+
+//encryption and decryption key
+export const decryptKey = {
+    key:"123"
+}
