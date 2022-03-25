@@ -1,4 +1,6 @@
+import { IconButton } from '@mui/material';
 import Logo from '../assets/svg/credit.svg'
+import { ActionsContainer, ActionToolTip, DeactivateAction, DeleteAction, EditAction, IconLink, StatusContainer, StatusText } from './Widgets/Elements/ViewCardsElements';
 
 ///nav bar object 
 export const navObj = {
@@ -16,15 +18,23 @@ export const smlWidgetObj = {
             width: 130,
             sortable: true,
         },
-        { 
-            field: 'cardNumber', 
+        {
+            field: 'cardNumber',
             headerName: 'Card Number',
-            width: 130 },
+            width: 130
+        },
         {
             field: 'status',
             headerName: 'Status',
-            width: 100,
-            sortable: true,
+            width: 90,
+            renderCell: (params) => {
+                return (
+                    <StatusContainer
+                        status={params.row.status === "Active" ? 1 : 0}>
+                        <StatusText>{params.row.status}</StatusText>
+                    </StatusContainer>
+                )
+            }
         },
         {
             field: 'actions',
@@ -32,23 +42,58 @@ export const smlWidgetObj = {
             description: 'This column has a value getter and is not sortable.',
             sortable: false,
             width: 160,
+            renderCell: (params) => {
+                const data = [];
+                const handleDelete = (id) => {
+                  this.setState({
+                    data: params.rows.filter(item => item.id !== id)
+                  });
+                };
+                return (
+                  <ActionsContainer>
+        
+                    <IconLink
+                      to={"/edit_user/" + params.row.id}
+                      state={{
+                        avatar: params.row.avatar,
+                        name: params.row.user,
+                        surname: params.row.surname,
+                        number: params.row.number,
+                        email: params.row.email,
+                        status: params.row.status,
+                        address: params.row.address,
+                      }}
+                    >
+                      <ActionToolTip title="Edit User info.">
+        
+                        <IconButton>
+        
+                          <EditAction />
+        
+                        </IconButton>
+        
+                      </ActionToolTip>
+                    </IconLink>
+        
+                    <ActionToolTip title="Delete User Account.">
+                      <IconButton>
+                        <DeleteAction />
+                      </IconButton>
+                    </ActionToolTip>
+        
+        
+                    <ActionToolTip title="Deactivate User Account.">
+                      <IconButton>
+                        <DeactivateAction />
+                      </IconButton>
+                    </ActionToolTip>
+        
+                  </ActionsContainer>
+                )
+              }
         },
     ],
-    th: [
-        {
-            title: "Card Holder",
-        },
-        {
-            title: "Card #",
-        },
-        {
-            title: "Status",
-        },
-        {
-            title: "Actions",
-        },
 
-    ],
 };
 
 ///large widget object 
