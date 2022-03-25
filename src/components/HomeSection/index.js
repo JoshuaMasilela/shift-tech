@@ -1,5 +1,5 @@
 import React from 'react'
-import { smlWidgetObj, lrgWidgetObj } from '../ObjData'
+import { smlWidgetObj, lrgWidgetObj, decryptKey } from '../ObjData'
 import ViewCardsSection from '../Widgets/ViewCardsSection';
 import AddCardsSection from '../Widgets/AddCardSection';
 import { HomeContainer, WidgetContainer } from './HomeElements'
@@ -10,8 +10,8 @@ export default function HomeSection() {
     <HomeContainer>
 
       <WidgetContainer>
-        <ViewCardsSection {...smlWidgetObj} />
-        <AddCardsSection {...lrgWidgetObj} {...submitButtonObj} />
+        <ViewCardsSection {...smlWidgetObj} {...decryptKey} />
+        <AddCardsSection {...lrgWidgetObj} {...submitButtonObj}/>
       </WidgetContainer>
     </HomeContainer>
   )

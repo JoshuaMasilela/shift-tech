@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { ViewCardsContainer, ViewCardsTitle, ViewWidgetTable, ViewWidgetTableBody, ViewWidgetTableHeader, ViewWidgetTableRow1, ViewWidgetWrapper } from './Elements/ViewCardsElements'
 import { DataGrid } from '@mui/x-data-grid';
-
+import CryptoJS from 'crypto-js';
+import { decryptKey } from '../ObjData'
 export default function ViewCardsSection({
   title,
-  columns
+  columns,
+
 }) {
 
   //set document title
@@ -31,10 +33,17 @@ export default function ViewCardsSection({
 
   if (cardData) {
     const rowData = cardData.map((item, index) =>{
+
+      //decryt data ( card_number, exp_date, cvv)
+
+      const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString();
+
+      // var cardCvv = CryptoJS.AES.decrypt(item.cvv, key);
+      // var cardExpDate = CryptoJS.AES.decrypt(item.expiry_date, key);
       return{
         id: index,
         cardHolder: item.name,
-        cardNumber: item.card_number,
+        cardNumber: cardNo,
       }
     })
     return (
