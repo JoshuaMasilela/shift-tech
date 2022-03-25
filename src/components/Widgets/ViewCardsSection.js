@@ -15,44 +15,40 @@ export default function ViewCardsSection({
   const [ rows, setRows ] = useState([]);
 
   useEffect(() => {
-    getData()
+    getData();
+
+    
   }, [])
 
+  //get card details from session storage
   const getData = () => {
+    //fetch card details from session storage return as JSON
     let data = JSON.parse(sessionStorage.getItem('cardDetails'));
-    setCardData(data)
-    console.log(cardData)
+
+    //set data to cardData array
+    setCardData(data);
   }
 
   if (cardData) {
-    
+    const rowData = cardData.map((item, index) =>{
+      return{
+        id: index,
+        cardHolder: item.name,
+        cardNumber: item.card_number,
+      }
+    })
     return (
       <ViewCardsContainer>
 
         <ViewCardsTitle>{title}</ViewCardsTitle>
         <DataGrid
         columns={columns}
-        rows={rows}
-        pageSize={5}
+        rows={rowData}
+        pageSize={6}
         rowsPerPageOptions={[5]}
-        checkboxSelection/>
-        {/* <ViewWidgetWrapper>
-          <ViewWidgetTable>
-            <ViewWidgetTableBody>
-              <ViewWidgetTableRow1>
-
-               
-                {
-                  th.map((item, index) => {
-                    return (
-                      <ViewWidgetTableHeader key={index}>{item.title}</ViewWidgetTableHeader>
-                    )
-                  })
-                }
-              </ViewWidgetTableRow1>
-            </ViewWidgetTableBody>
-          </ViewWidgetTable>
-        </ViewWidgetWrapper> */}
+        checkboxSelection
+        disableSelectionOnClick/>
+ 
       </ViewCardsContainer>
     )
   } else {
