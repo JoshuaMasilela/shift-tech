@@ -1,10 +1,10 @@
 import React from 'react'
-import { 
+import {
   Column1,
   Column2,
-  EditContainer, 
-  EditHeading, 
-  EditRow, 
+  EditContainer,
+  EditHeading,
+  EditRow,
   EditWrapper,
   Header,
   Heading,
@@ -12,39 +12,42 @@ import {
   ImgWrap,
   Subheading,
   TextWrapper,
- } from './EditElements'
+} from './EditElements'
 
 export default function EditCardSection({
-imgStart,
-lightText,
-darkText,
-img,
-lightTextDesc,
-alt
+  imgStart,
+  lightText,
+  darkText,
+  img,
+  lightTextDesc,
+  alt
 }) {
+  //document name
+  document.title = "Edit";
+  
   return (
     <EditContainer>
 
-<EditWrapper>
-  
-                <EditRow imgStart={imgStart}>
-                <Column1>
-                    <TextWrapper>
-                        <EditHeading lightText={lightText}>Edit Card</EditHeading>
-                        <Heading lightTextDesc={lightTextDesc}>{}</Heading>
-                        <Subheading darkText={darkText}>{}</Subheading>
-                    </TextWrapper>
-                </Column1>
+      <EditWrapper>
 
-                <Column2>
-                    <ImgWrap>
-                        <Img src={img} alt={'avatar'}/>
-                    </ImgWrap>
-                </Column2>
-            </EditRow>
+        <EditRow imgStart={imgStart}>
+          <Column1>
+            <TextWrapper>
+              <EditHeading lightText={lightText}>Edit Card</EditHeading>
+              <Heading lightTextDesc={lightTextDesc}>{ }</Heading>
+              <Subheading darkText={darkText}>{ }</Subheading>
+            </TextWrapper>
+          </Column1>
 
-     
-          </EditWrapper>
+          <Column2>
+            <ImgWrap>
+              <Img src={img} alt={'avatar'} />
+            </ImgWrap>
+          </Column2>
+        </EditRow>
+
+
+      </EditWrapper>
     </EditContainer>
   )
 }
