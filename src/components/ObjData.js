@@ -45,6 +45,8 @@ export const smlWidgetObj = {
                       state={{
                         card_holder: params.row.cardHolder,
                         ms_card: params.row.cardNumber,
+                        ms_cvv:params.row.cvc,
+                        ms_exp_date:params.row.expiry_date,
                         timeStamp: params.row.timeStamp,
 
                         card_cvc:params.row.unmasked_card_cvv,

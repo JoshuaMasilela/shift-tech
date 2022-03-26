@@ -39,18 +39,30 @@ export default function EditCardSection({
     timeStamp,
     card_exp,
     card_cvc,
+    //masked variables
     ms_card,
+    ms_cvv,
+    ms_exp_date
 
   } = location.state;
 
   //mask variable declaration
   const [maskCardNumber, setNumberMaskToggle] = useState(false);
+  const [maskCardCvv, setCvvMaskToggle] = useState(false);
+  const [maskExpDate, setExpDateMaskToggle] = useState(false);
 
   // toggle mask data 
-  const maskToggle = () => {
+  const maskNumberToggle = () => {
     setNumberMaskToggle(!maskCardNumber)
   }
 
+  const maskCvvToggle = () => {
+    setCvvMaskToggle(!maskCardCvv)
+  }
+
+  const maskExpDateToggle = () => {
+    setExpDateMaskToggle(!maskExpDate)
+  }
   return (
     <EditContainer>
 
@@ -62,10 +74,18 @@ export default function EditCardSection({
               <EditHeading lightText={lightText}>{card_holder}</EditHeading>
               <ContentWrap>
                 <Heading lightTextDesc={lightTextDesc}>{maskCardNumber ? card_number : ms_card}</Heading>
-                <Eye onClick={maskToggle} />
+                <Eye onClick={maskNumberToggle} />
               </ContentWrap>
-              <Heading lightTextDesc={lightTextDesc}>{card_cvc}</Heading>
-              <Heading lightTextDesc={lightTextDesc}>{card_exp}</Heading>
+
+              <ContentWrap>
+                <Heading lightTextDesc={lightTextDesc}>{ maskCardCvv ? card_cvc : ms_cvv}</Heading>
+                <Eye onClick={maskCvvToggle} />
+              </ContentWrap>
+
+              <ContentWrap>
+                <Heading lightTextDesc={lightTextDesc}>{ maskExpDate ?  card_exp: ms_exp_date}</Heading>
+                <Eye onClick={maskExpDateToggle} />
+              </ContentWrap>
               <Subheading darkText={darkText}>{timeStamp}</Subheading>
             </TextWrapper>
           </Column1>
