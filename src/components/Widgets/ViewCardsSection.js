@@ -15,7 +15,7 @@ export default function ViewCardsSection({
 
   //create local variable
   const [cardData, setCardData] = useState([]);
-  const [rows, setRows] = useState([]);
+  const [mask_card, setCardMark] = useState("");
 
   useEffect(() => {
     getData();
@@ -40,7 +40,6 @@ export default function ViewCardsSection({
     const cardCvc = CryptoJS.AES.decrypt(item.cvv, decryptKey.key).toString(CryptoJS.enc.Utf8);
     const cardExpDate = CryptoJS.AES.decrypt(item.expiry_date, decryptKey.key).toString(CryptoJS.enc.Utf8);
 
-    console.log(item.expiry_date)
     // mask card number, cvc, expiry date
     const masked_card_number = cardNo.replace(/^[\d-\s]+(?=\d{4})/, "************");
     const masked_card_cvc = cardCvc.replace(/.+(.{0})$/, "******");
@@ -54,7 +53,10 @@ export default function ViewCardsSection({
 
       //not displayed but passed for edit screen
       cvc: masked_card_cvc,
-      expiry_date:masked_exp_date 
+      expiry_date:masked_exp_date,
+      unmasked_card_exp_date:cardExpDate,
+      unmasked_card_number:cardNo,
+      unmasked_card_cvv:cardCvc
     }
   })
 
@@ -66,7 +68,7 @@ export default function ViewCardsSection({
         columns={columns}
         rows={rowData}
         pageSize={6}
-        rowsPerPageOptions={[5]}
+        rowsPerPageOptions={[6]}
         checkboxSelection
         disableSelectionOnClick />
 

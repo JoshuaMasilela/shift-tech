@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { IoEyeSharp } from 'react-icons/io5';
 
 export const EditContainer = styled.div`
 background-color: #fffff;
@@ -28,6 +29,17 @@ align-self: center;
 justify-content: center;
 `;
 
+export const ContentWrap = styled.div`
+display: flex;
+margin: 5px;
+align-items:center;
+`;
+
+export const Eye = styled(IoEyeSharp)`
+margin-left: 5px;
+font-size: 2rem;
+cursor: pointer;
+`
 
 export const EditRow = styled.div`
 display: grid;

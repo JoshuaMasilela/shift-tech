@@ -39,15 +39,18 @@ export const smlWidgetObj = {
                 };
                 return (
                   <ActionsContainer>
-        {/* pass card details to edit user screen as props */}
+        {/* pass card details to edit user screen as parameters */}
                     <IconLink
                       to={"/edit_user/" + params.row.id}
                       state={{
                         card_holder: params.row.cardHolder,
-                        card_number: params.row.cardNumber,
+                        ms_card: params.row.cardNumber,
                         timeStamp: params.row.timeStamp,
-                        card_cvc:params.row.cvc,
-                        card_exp:params.row.expiry_date,
+
+                        card_cvc:params.row.unmasked_card_cvv,
+                        card_exp:params.row.unmasked_card_exp_date,
+                        card_number: params.row.unmasked_card_number,
+                       
                       }}
                     >
                       <ActionToolTip title="Edit User info.">
