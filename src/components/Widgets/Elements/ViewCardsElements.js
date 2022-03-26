@@ -33,6 +33,11 @@ align-items: center;
 justify-content: center;
 `;
 
+export const ViewWidgetId = styled.span`
+font-size: 12px
+`;
+
+
 export const ViewWidgetTable = styled.table`;
 width: 100%;
 border-spacing: 20px;

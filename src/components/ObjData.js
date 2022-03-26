@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
 import Logo from '../assets/svg/credit.svg'
-import { ActionsContainer, ActionToolTip, DeactivateAction, DeleteAction, EditAction, IconLink, StatusContainer, StatusText } from './Widgets/Elements/ViewCardsElements';
+import { ActionsContainer, ActionToolTip, DeactivateAction, DeleteAction, EditAction, IconLink, StatusContainer, StatusText, ViewWidgetId } from './Widgets/Elements/ViewCardsElements';
 import AvatarSvg from '../assets/svg/person.svg';
 ///nav bar object 
 export const navObj = {
@@ -11,7 +11,16 @@ export const navObj = {
 export const smlWidgetObj = {
   title: "View Credit Cards",
   columns: [
-    { field: 'id', headerName: 'ID', width: 10 },
+    { 
+      field: 'id', 
+      headerName: 'ID', 
+      width: 10,
+      renderCell: (params) => {
+        return (
+          <ViewWidgetId>{params.row.id}</ViewWidgetId>
+        )
+      }
+    },
     {
       field: 'cardHolder',
       headerName: 'Card holder name',
@@ -31,18 +40,43 @@ export const smlWidgetObj = {
       sortable: false,
       width: 90,
       renderCell: (params) => {
-        const data = [];
-        const handleDelete = (id) => {
-          this.setState({
-            data: params.rows.filter(item => item.id !== id)
-          });
+      
+ 
+
+      const removeItem = async () =>{
+
+        //get items from session storage
+        let items = await JSON.parse(sessionStorage.getItem('cardDetails'));
+  
+        //construct object
+        const cardObj = {
+          id: params.row.id,
+          card_number:params.row.unmasked_card_number,
+          cvv:params.row.unmasked_card_cvv,
+          expiry_date:params.row.unmasked_card_exp_dat
         };
+       
+        //get index of object
+        const index = items.indexOf(cardObj.id);
+
+        //splice array at index of object
+        items.splice(index, 1);
+
+        //save back to session storage
+       await sessionStorage.setItem('cardDetails', JSON.stringify(items));
+
+       //refresh window
+       window.location.reload();
+    }
+
         return (
           <ActionsContainer>
             {/* pass card details to edit user screen as parameters */}
             <IconLink
               to={"/edit_user/" + params.row.id}
+              
               state={{
+                id: params.row.id  ,
                 card_holder: params.row.cardHolder,
                 ms_card: params.row.cardNumber,
                 ms_cvv: params.row.cvc,
@@ -67,8 +101,8 @@ export const smlWidgetObj = {
             </IconLink>
 
             <ActionToolTip title="Delete User Info.">
-              <IconButton>
-                <DeleteAction />
+              <IconButton onClick={removeItem}>
+                <DeleteAction  />
               </IconButton>
             </ActionToolTip>
 
@@ -106,7 +140,6 @@ export const decryptKey = {
 }
 
 //edit user Card Details
-
 export const editObj = {
   id: 'edit',
   title: 'Edit Card Details',
@@ -119,6 +152,8 @@ export const editObj = {
   dark: true,
   primary: false,
   darkText: true,
+fontBig: false,
+big: false,
   subHeader1:'Card Number',
   subHeader2: 'Card Cvv',
   subHeader3: 'Expiry Date',

@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Column1,
   Column2,
   ContentWrap,
-  EditBoxWrapper,
   EditContainer,
-  EditForm,
   EditHeading,
-  EditInput,
   EditRow,
-  EditTitle,
   EditWrapper,
   Eye,
-  Header,
   Heading,
   Img,
   ImgWrap,
@@ -27,6 +22,9 @@ import Cards from 'react-credit-cards'; //install using --legacy-peer-deps
 import 'react-credit-cards/es/styles-compiled.css';
 import { SubmitCardButton } from '../ButtonElements';
 import { Alert } from '@mui/material';
+import CryptoJS from 'crypto-js';
+import { decryptKey } from '../ObjData';
+
 export default function EditCardSection({
   imgStart,
   lightText,
@@ -51,6 +49,7 @@ export default function EditCardSection({
 
   //declare params as child state
   const {
+    id,
     card_holder,
     card_number,
     timeStamp,
@@ -62,6 +61,9 @@ export default function EditCardSection({
     ms_exp_date
 
   } = location.state;
+
+  //navigation
+  let navigate = useNavigate();
 
   //mask variable declaration
   const [maskCardNumber, setNumberMaskToggle] = useState(false);
@@ -86,6 +88,54 @@ export default function EditCardSection({
   const [focus, setFocus] = useState('');
   //custom hooks
   const { handleChange, handleSubmit, values, errors } = useForm();
+
+  // update card details 
+
+  const handleUpdate = async () => {
+    // get session storage data
+
+    let items = JSON.parse(sessionStorage.getItem('cardDetails'));
+
+    const newId = id ? id : 0;
+    //loof through data
+    items.forEach(async (item, index) => {
+
+    
+      // check if item id matches changing value id
+      if (index === newId) {
+
+        // encypt card details
+        // encrypt card number
+        // encrypt card cvc
+        // encrypt card expiry_date
+        const card_number = await CryptoJS.AES.encrypt(values.number, decryptKey.key).toString();
+        const card_cvc = await CryptoJS.AES.encrypt(values.cvc, decryptKey.key).toString();
+        const card_exp_date = await CryptoJS.AES.encrypt(values.exp, decryptKey.key).toString();
+
+        //set new object
+
+        const updatedObj = {
+
+          name: values.name ? values.name : item.name,
+          card_number: values.number ? card_number : item.card_number,
+          cvv: values.cvc ? card_cvc : item.cvv,
+          expiry_date: values.exp ? card_exp_date : item.expiry_date,
+          timestamp: item.timestamp,
+          updatedAt: new Date(),
+        }
+
+        items.push(updatedObj);
+
+        //push data to new array
+        await sessionStorage.setItem('cardDetails', JSON.stringify([updatedObj]));
+
+        //refresh page after success
+        
+        navigate("/")
+      }
+    })
+
+  }
   return (
     <EditContainer>
 
@@ -97,19 +147,19 @@ export default function EditCardSection({
               <EditHeading lightText={lightText}>{card_holder}</EditHeading>
               <SubHeader>{subHeader1}</SubHeader>
               <ContentWrap>
-            
+
                 <Heading lightTextDesc={lightTextDesc}>{maskCardNumber ? card_number : ms_card}</Heading>
                 <Eye onClick={maskNumberToggle} />
               </ContentWrap>
               <SubHeader>{subHeader2}</SubHeader>
               <ContentWrap>
-             
+
                 <Heading lightTextDesc={lightTextDesc}>{maskCardCvv ? card_cvc : ms_cvv}</Heading>
                 <Eye onClick={maskCvvToggle} />
               </ContentWrap>
               <SubHeader>{subHeader3}</SubHeader>
               <ContentWrap>
-        
+
                 <Heading lightTextDesc={lightTextDesc}>{maskExpDate ? card_exp : ms_exp_date}</Heading>
                 <Eye onClick={maskExpDateToggle} />
               </ContentWrap>
@@ -137,7 +187,7 @@ export default function EditCardSection({
 
         <CardWrapper>
           <CardContainer>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleUpdate}>
               <FormInputWrap>
                 <FormInput
                   type='text'

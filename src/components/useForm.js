@@ -5,6 +5,8 @@ import { decryptKey } from './ObjData';
 
 const useForm = () => {
 
+    // declare session storage
+    const cardDetails = JSON.parse(sessionStorage.getItem('cardDetails'));
     //set required variable state
     const [values, setValues] = useState({
         name: "",
@@ -36,7 +38,6 @@ const useForm = () => {
                 // Get array from local storage, defaulting to empty array if it's not yet set
                 let itemsArray = await sessionStorage.getItem('cardDetails') ? JSON.parse(sessionStorage.getItem('cardDetails')) : [];
 
-
                 // encypt card details
                 // encrypt card number
                 // encrypt card cvc
@@ -52,6 +53,7 @@ const useForm = () => {
                     cvv: card_cvc,
                     expiry_date: card_exp_date,
                     timestamp: new Date(),
+                    updatedAt: new Date(),
                 };
 
                 console.log(cardInfo)
@@ -74,9 +76,11 @@ const useForm = () => {
         //prevent default
         await e.preventDefault();
         await storeInfo();
+    };
+
+  
 
 
-    }
 
     return { handleChange, handleSubmit, values, errors };
 }

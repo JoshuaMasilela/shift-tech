@@ -32,9 +32,11 @@ export default function ViewCardsSection({
     setCardData(data);
   }
   // 4023943091203902
-  if(cardData){
+  if(cardData !== null){
+    console.log(cardData);
   //map out data into row
   const rowData = cardData.map((item, index) => {
+    console.log("Index:" +index)
     //decryt data ( card_number, exp_date, cvc)
     const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString(CryptoJS.enc.Utf8);
     const cardCvc = CryptoJS.AES.decrypt(item.cvv, decryptKey.key).toString(CryptoJS.enc.Utf8);
@@ -46,11 +48,11 @@ export default function ViewCardsSection({
     const masked_exp_date = cardExpDate.replace(/.+(.{0})$/, "****"+"/"+"****");
 
     return {
-      id: index,
+      id: index ? index : 0,
       cardHolder: item.name,
       cardNumber: masked_card_number,
-      timeStamp: moment(item.timeStamp).format("DD-MM-YY HH:mm:ss A"),
-
+      timeStamp: moment(item.timestamp).format("DD-MM-YY HH:mm:ss A"),
+      updatedAt: moment(item.updatedAt).format("DD-MM-YY HH:mm:ss A"),
       //not displayed but passed for edit screen
       cvc: masked_card_cvc,
       expiry_date:masked_exp_date,
