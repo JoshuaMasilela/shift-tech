@@ -129,9 +129,9 @@ export default function EditCardSection({
         //push data to new array
         await sessionStorage.setItem('cardDetails', JSON.stringify([updatedObj]));
 
-        //refresh page after success
+        //navigae to home after success
         
-        navigate("/")
+        navigate("/");
       }
     })
 
