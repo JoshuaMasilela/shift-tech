@@ -19,12 +19,12 @@ export default function AddCardSection({
   //custom hooks
   const { handleChange, handleSubmit, values, errors } = useForm();
 
-  
+
   return (
     <AddCardContainer>
       <AddCardTitle>{title}</AddCardTitle>
       <Cards
-        cvv={values.cvv}
+        cvc={values.cvc}
         expiry={values.exp}
         focused={focus}
         name={values.name}
@@ -83,13 +83,13 @@ export default function AddCardSection({
               <FormInputWrap>
                 <FormContentInput
                   type='number'
-                  label='cvv'
+                  label='cvc'
                   placeholder='111'
-                  value={values.cvv}
-                  name='cvv'
+                  value={values.cvc}
+                  name='cvc'
                   size='small'
                   onChange={handleChange}
-                  error={errors.ccvv}
+                  error={errors.ccvc}
                   onFocus={e => setFocus(e.target.name)}
                 />
               </FormInputWrap>

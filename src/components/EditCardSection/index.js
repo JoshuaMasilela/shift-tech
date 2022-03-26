@@ -36,7 +36,7 @@ export default function EditCardSection({
     card_number,
     timeStamp,
     card_exp,
-    card_cvv
+    card_cvc
     
   } = location.state
 
@@ -50,7 +50,7 @@ export default function EditCardSection({
             <TextWrapper>
               <EditHeading lightText={lightText}>{card_holder}</EditHeading>
               <Heading lightTextDesc={lightTextDesc}>{card_number }</Heading>
-              <Heading lightTextDesc={lightTextDesc}>{card_cvv }</Heading>
+              <Heading lightTextDesc={lightTextDesc}>{card_cvc }</Heading>
               <Heading lightTextDesc={lightTextDesc}>{card_exp }</Heading>
               <Subheading darkText={darkText}>{ timeStamp}</Subheading>
             </TextWrapper>

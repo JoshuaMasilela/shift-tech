@@ -2,8 +2,6 @@ import { useState } from "react";
 import validateInfo from "./validateInfo";
 import CryptoJS from 'crypto-js';
 import { decryptKey } from './ObjData';
-import { number } from "card-validator";
-import { cvv } from "card-validator/dist/cvv";
 
 const useForm = () => {
 
@@ -12,7 +10,7 @@ const useForm = () => {
         name: "",
         number: '',
         exp: '',
-        cvv: '',
+        cvc: '',
     });
 
     //set errors state
@@ -29,9 +27,9 @@ const useForm = () => {
 
     //store card details
     const storeInfo = async () => {
-        
+
         try {
-          await setErrors(validateInfo(values));
+            await setErrors(validateInfo(values));
             if (errors.variant === 'success') {
                 //get encryption env key
                 const SECRET_KEY = await decryptKey.key;
@@ -41,19 +39,17 @@ const useForm = () => {
 
                 // encypt card details
                 // encrypt card number
-                // encrypt card cvv
+                // encrypt card cvc
                 // encrypt card expiry_date
-console.log("USer input cvv: "+ values.cvv)
-console.log("USer input exp: "+ values.exp)
                 const card_number = await CryptoJS.AES.encrypt(values.number, SECRET_KEY).toString();
-                const card_cvv = await CryptoJS.AES.encrypt(values.cvv, SECRET_KEY).toString();
+                const card_cvc = await CryptoJS.AES.encrypt(values.cvc, SECRET_KEY).toString();
                 const card_exp_date = await CryptoJS.AES.encrypt(values.exp, SECRET_KEY).toString();
 
                 // create values as objects
                 const cardInfo = {
                     name: values.name,
                     card_number: card_number,
-                    cvv: card_cvv,
+                    cvv: card_cvc,
                     expiry_date: card_exp_date,
                     timestamp: new Date(),
                 };

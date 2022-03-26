@@ -46,7 +46,7 @@ export const smlWidgetObj = {
                         card_holder: params.row.cardHolder,
                         card_number: params.row.cardNumber,
                         timeStamp: params.row.timeStamp,
-                        card_cvv:params.row.cvv,
+                        card_cvc:params.row.cvc,
                         card_exp:params.row.expiry_date,
                       }}
                     >

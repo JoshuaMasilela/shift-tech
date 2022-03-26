@@ -7,7 +7,7 @@ export default function validateInfo(values) {
     let cCard = valid.number(values.number);
 
     cCard.expirationDate = valid.expirationDate(values.exp);
-    cCard.cvv = valid.cvv(values.cvv);
+    cCard.cvc = valid.cvv(values.cvc);
     cCard.cardholderName = valid.cardholderName(values.name);
 
     console.log(cCard)
@@ -20,7 +20,7 @@ export default function validateInfo(values) {
     errors.cname = false;
     errors.cnumber = false;
     errors.cexp = false;
-    errors.ccvv = false;
+    errors.ccvc = false;
 
     //validation check using if statments
 
@@ -57,14 +57,14 @@ export default function validateInfo(values) {
         errors.message = "Credit card expiration date is invalid";
     }
   
-    //Card CVV expiration
-    if (values.cvv === null || !values.cvv.trim()) {
-        errors.message = "Credit card cvv is not complete";
-        errors.ccvv = true;
-    } else if (cCard.cvv.isValid) {
-        errors.ccvv = false;
+    //Card cvc expiration
+    if (values.cvc === null || !values.cvc.trim()) {
+        errors.message = "Credit card cvc is not complete";
+        errors.ccvc = true;
+    } else if (cCard.cvc.isValid) {
+        errors.ccvc = false;
     } else {
-        errors.message = "Credit card cvv is invalid";
+        errors.message = "Credit card cvc is invalid";
     }
 
     if (
@@ -74,7 +74,7 @@ export default function validateInfo(values) {
         &&
         errors.cexp !==true
         &&
-        errors.ccvv !==true
+        errors.ccvc !==true
      
       ) {
         errors.variant = "success";

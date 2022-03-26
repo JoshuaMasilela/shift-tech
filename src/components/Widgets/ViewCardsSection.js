@@ -35,14 +35,15 @@ export default function ViewCardsSection({
   if(cardData){
   //map out data into row
   const rowData = cardData.map((item, index) => {
-    //decryt data ( card_number, exp_date, cvv)
+    //decryt data ( card_number, exp_date, cvc)
     const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString(CryptoJS.enc.Utf8);
-    const cardCvv = CryptoJS.AES.decrypt(item.cvv, "123").toString(CryptoJS.enc.Utf8);
+    const cardCvc = CryptoJS.AES.decrypt(item.cvv, decryptKey.key).toString(CryptoJS.enc.Utf8);
     const cardExpDate = CryptoJS.AES.decrypt(item.expiry_date, decryptKey.key).toString(CryptoJS.enc.Utf8);
 
-    // mask card number, cvv, expiry date
+    console.log(item.expiry_date)
+    // mask card number, cvc, expiry date
     const masked_card_number = cardNo.replace(/^[\d-\s]+(?=\d{4})/, "************");
-    const masked_card_cvv = cardCvv.replace(/.+(.{0})$/, "******");
+    const masked_card_cvc = cardCvc.replace(/.+(.{0})$/, "******");
     const masked_exp_date = cardExpDate.replace(/.+(.{0})$/, "****"+"/"+"****");
 
     return {
@@ -52,7 +53,7 @@ export default function ViewCardsSection({
       timeStamp: moment(item.timeStamp).format("DD-MM-YY HH:mm:ss A"),
 
       //not displayed but passed for edit screen
-      cvv: masked_card_cvv,
+      cvc: masked_card_cvc,
       expiry_date:masked_exp_date 
     }
   })
