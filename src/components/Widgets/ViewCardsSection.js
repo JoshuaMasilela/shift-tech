@@ -36,7 +36,7 @@ export default function ViewCardsSection({
     console.log(cardData);
   //map out data into row
   const rowData = cardData.map((item, index) => {
-    console.log("Index:" +index)
+
     //decryt data ( card_number, exp_date, cvc)
     const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString(CryptoJS.enc.Utf8);
     const cardCvc = CryptoJS.AES.decrypt(item.cvv, decryptKey.key).toString(CryptoJS.enc.Utf8);

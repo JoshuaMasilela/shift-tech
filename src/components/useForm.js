@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import validateInfo from "./validateInfo";
 import CryptoJS from 'crypto-js';
 import { decryptKey } from './ObjData';
@@ -17,6 +17,8 @@ const useForm = () => {
 
     //set errors state
     const [errors, setErrors] = useState({});
+      //create local variable
+  const [cardData, setCardData] = useState([]);
 
     //handle card inputs value change
     const handleChange = (e) => {
@@ -27,17 +29,38 @@ const useForm = () => {
         });
     }
 
+    useEffect(()=>{
+        getData();
+    },[]);
+
+    const getData = () => {
+        //fetch card details from session storage return as JSON
+        let data = JSON.parse(sessionStorage.getItem('cardDetails'));
+    
+        //set data to cardData array
+        setCardData(data);
+      }
+
     //store card details
     const storeInfo = async () => {
 
         try {
+                 // Get array from local storage, defaulting to empty array if it's not yet set
+                 let itemsArray = await sessionStorage.getItem('cardDetails') ? JSON.parse(sessionStorage.getItem('cardDetails')) : [];
+              // Get array from local storage, defaulting to empty array if it's not yet set
+              let array_card_number =  cardData.map((item)=>{return item.card_number}).toString();
+              console.log("encrypted card number: "+array_card_number )
+              //decryt data ( card_number, exp_date, cvc)
+    const cardNo = CryptoJS.AES.decrypt(array_card_number, decryptKey.key);
+    console.log("card number: "+cardNo )        
             await setErrors(validateInfo(values));
             if (errors.variant === 'success') {
+                console.log("card number: "+cardNo )
+                console.log("entered card number: "+values.number )
+                if(cardNo !==values.number ){
                 //get encryption env key
                 const SECRET_KEY = await decryptKey.key;
-                // Get array from local storage, defaulting to empty array if it's not yet set
-                let itemsArray = await sessionStorage.getItem('cardDetails') ? JSON.parse(sessionStorage.getItem('cardDetails')) : [];
-
+            
                 // encypt card details
                 // encrypt card number
                 // encrypt card cvc
@@ -65,8 +88,11 @@ const useForm = () => {
                 await sessionStorage.setItem('cardDetails', JSON.stringify(itemsArray));
 
                 //refresh page after success
-                window.location.reload();
+                // window.location.reload();
+            }else{
+                alert("Card exists")
             }
+        }
         } catch (error) {
             console.log(error);
         }
