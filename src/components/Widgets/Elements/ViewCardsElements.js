@@ -117,3 +117,7 @@ export const StatusText = styled.p`
 color: #ffffff;
 font-size: 16;
 `;
+
+// export const EmptyAnimation = styled(Lottie)`
+// height: 200px;
+// `;
