@@ -4,6 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import CryptoJS from 'crypto-js';
 import { decryptKey } from '../ObjData'
 import moment from 'moment';
+
+  //fetch card details from session storage return as JSON
+  let data = JSON.parse(sessionStorage.getItem('cardDetails'));
+
 export default function ViewCardsSection({
   title,
   columns,
@@ -12,30 +16,11 @@ export default function ViewCardsSection({
 
   //set document title
   document.title = "Shift Tech Home";
-
-  //create local variable
-  const [cardData, setCardData] = useState([]);
-  const [mask_card, setCardMark] = useState("");
-
-  useEffect(() => {
-    getData();
-
-
-  }, [])
-
-  //get card details from session storage
-  const getData = () => {
-    //fetch card details from session storage return as JSON
-    let data = JSON.parse(sessionStorage.getItem('cardDetails'));
-
-    //set data to cardData array
-    setCardData(data);
-  }
-  // 4023943091203902
-  if(cardData !== null){
-    console.log(cardData);
+  
+  if(data !== null){
+    console.log(data);
   //map out data into row
-  const rowData = cardData.map((item, index) => {
+  const rowData = data.map((item, index) => {
 
     //decryt data ( card_number, exp_date, cvc)
     const cardNo = CryptoJS.AES.decrypt(item.card_number, decryptKey.key).toString(CryptoJS.enc.Utf8);
