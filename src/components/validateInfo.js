@@ -10,7 +10,7 @@ export default function validateInfo(values) {
     cCard.cvc = valid.cvv(values.cvc);
     cCard.cardholderName = valid.cardholderName(values.name);
 
-    console.log(cCard)
+    console.log(cCard);
     // default expected error values
     // handles how error is displayed
     errors.show = true;

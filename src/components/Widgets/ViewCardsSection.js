@@ -21,15 +21,6 @@ export default function ViewCardsSection({
   //set document title
   document.title = "Shift Tech Home";
 
-  //set animation options
-  const defaultOpt = {
-    loop: true,
-    autoplay: true,
-    animationData: NoData,
-    renderSettings: {
-      preserveAspectRatio: 'xMidYMid slice'
-    }
-  };
 
   //check if data is null
   if (data !== null) {
@@ -82,7 +73,14 @@ export default function ViewCardsSection({
         <ViewCardsTitle>{title}</ViewCardsTitle>
         <ViewWidgetWrapper>
           <Lottie
-            options={defaultOpt}
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: NoData,
+              renderSettings: {
+                preserveAspectRatio: 'xMidYMid slice'
+              }
+            }}
             height={400}
             width={400} />
         </ViewWidgetWrapper>

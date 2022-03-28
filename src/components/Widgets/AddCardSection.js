@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useForm from '../useForm';
-import { AddCardContainer, AddCardTitle, BtnWrap, CardContainer, CardWrapper, Form, FormContent, FormContentInput, FormInput, FormInputWrap } from './Elements/AddCardElements';
+import { AddCardContainer, AddCardTitle, BtnWrap, CardContainer, CardWrapper, ErrorText, Form, FormContent, FormContentInput, FormInput, FormInputWrap, LoadingText, LoadingVerificationWrapper } from './Elements/AddCardElements';
 import Cards from 'react-credit-cards'; //install using --legacy-peer-deps
 import 'react-credit-cards/es/styles-compiled.css';
 import { SubmitCardButton } from '../ButtonElements';
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
+//import animation from animations folder
+import ErrorDialog from '../Dialogs/ErrorDialog';
+import SuccessDialog from '../Dialogs/SuccessDialog'
+  ;
 export default function AddCardSection({
   title,
   primary,
@@ -14,10 +19,34 @@ export default function AddCardSection({
   dark
 }) {
 
+  const [updateState, setUpdateState] = useState(false);
+
+  //custom hooks
+  const { handleChange, handleSubmit, handleVerification, setExistsAlert, setSuccessAlert, setSubmitInfo,
+    values, errors, cardExists, cardAdded, loadingVerification, submitInfo } = useForm();
+
+  const loadingState = loadingVerification;
+  //handle error dialog close 
+  const handleClose = () => {
+    setExistsAlert(false);
+    return false; // stops function
+  };
+
+  useEffect(() =>{
+    setUpdateState(currentState =>{
+      var changeState
+      currentState =changeState
+      return currentState
+    })
+  },[])
+  //close success dialog
+  const handleCloseSuccess = () => {
+    setSuccessAlert(false);
+    return false; // stop function
+  }
+
   //set card focus
   const [focus, setFocus] = useState('');
-  //custom hooks
-  const { handleChange, handleSubmit, values, errors } = useForm();
 
 
   return (
@@ -32,7 +61,7 @@ export default function AddCardSection({
 
       <CardWrapper>
         <CardContainer>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={updateState ? handleSubmit : handleVerification}>
             <FormInputWrap>
               <FormInput
                 type='text'
@@ -96,15 +125,70 @@ export default function AddCardSection({
             </FormContent>
 
             <BtnWrap>
-              <SubmitCardButton
-                type="submit"
-                primary={primary ? 1 : 0}
-                dark={dark ? 1 : 0}
-                fontBig={fontBig ? 1 : 0}
-                big={big ? 1 : 0}>Submit Card Details</SubmitCardButton>
+
+              {
+                loadingState ?
+                  <LoadingVerificationWrapper>
+                    <CircularProgress
+                      size={14} />
+                    <LoadingText>Verifying card details... Please wait!</LoadingText>
+                  </LoadingVerificationWrapper>
+
+                  :
+               
+                    <SubmitCardButton
+                    onClick={() => {
+                      if(errors.variant === 'success'){
+                        setUpdateState(true)
+                      }else{
+                        setUpdateState(false)
+                      }
+                      return false;
+                    }
+                
+                  }
+                      type="submit"
+                      primary={primary ? 1 : 0}
+                      dark={dark ? 1 : 0}
+                      fontBig={fontBig ? 1 : 0}
+                      big={big ? 1 : 0}>
+                      {
+                         updateState?
+                          "Submit Credit Card Details" :"Verify Credit Card Details"
+               }
+                    </SubmitCardButton>
+        }
+   
+             
+
+
+
             </BtnWrap>
+            <ErrorDialog
+              open={cardExists}
+              onClose={handleClose} />
+
+            <SuccessDialog
+              open={cardAdded}
+              onClose={handleCloseSuccess} />
+            {/* <Dialog open={cardExists} onClose={handleClose}>
+
+            <Lottie
+            options={{
+              loop: true,
+              autoplay: true,
+              animationData: ErrorLottie,
+              renderSettings: {
+                preserveAspectRatio: 'xMidYMid slice'
+              }
+            }}
+            height={260}
+            width={260} />
+              <ErrorText>Card with this number already exits... Please try different card!</ErrorText>
+            </Dialog> */}
 
             {
+              !loadingVerification &&
               errors.message && <Alert severity={errors.variant}>{errors.message}</Alert>
 
             }

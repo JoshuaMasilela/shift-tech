@@ -66,3 +66,15 @@ export const BtnWrap = styled.div`
 display: flex;
 justify-content: center;
 `;
+
+export const LoadingVerificationWrapper = styled.div`
+display: flex;
+align-items: center;
+justify-content: center;
+`;
+
+export const LoadingText = styled.p`
+font-size: .78rem;
+margin: 3px;
+`;
+
