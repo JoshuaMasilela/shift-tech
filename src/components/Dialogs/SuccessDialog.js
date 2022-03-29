@@ -6,7 +6,7 @@ import SuccessLottie from '../../assets/animations/97240-success.json';
 import Lottie from 'react-lottie';
 import { SuccessTitle, SuccessText } from './Elements/SuccessElements';
 
-export default function SuccessDialog({open, onClose}) {
+export default function SuccessDialog({open, onClose, message}) {
  //handle dialog cloase 
  const handleClose = () => {
   onClose(false);
@@ -26,9 +26,9 @@ return (
                   preserveAspectRatio: 'xMidYMid slice'
               }
           }}
-          height={250}
+          height={200}
           width={250} />
-      <SuccessText>Card successfully added!!</SuccessText>
+      <SuccessText>{message}</SuccessText>
   </Dialog>
 )
 }

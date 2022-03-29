@@ -18,6 +18,8 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
 import { SubmitCardButton } from '../ButtonElements';
 import useForm from '../useForm';
+import SuccessDialog from '../Dialogs/SuccessDialog';
+import ErrorDialog from '../Dialogs/ErrorDialog';
 
 //fetch card details from session storage return as JSON
 let data = JSON.parse(sessionStorage.getItem('blockedCountries'));
@@ -35,8 +37,24 @@ export default function BannedCSection({
   const {
     handleCountrySubmit,
     handleCountryChange,
+    setBannedError,
+    setBannedSuccess,
+    bannedError,
+    bannedSuccess,
     country
   } = useForm();
+
+    //close success dialog
+    const handleCloseSuccess = () => {
+      setBannedSuccess(false);
+      return false; // stop function
+    }
+
+      //handle error dialog close 
+  const handleClose = () => {
+    setBannedError(false);
+    return false; // stops function
+  };
 
   const [globe, setGlobe] = useState(null);
   console.log(globe); // captured globe instance with API methods
@@ -101,8 +119,8 @@ export default function BannedCSection({
         city: item.country_name,
         color: 'red',
         coordinates: [item.country_lat, item.country_lng],
-        value: 150,
         code: item.country_code,
+        value:index,
         latlng: item.country_lat + ", " + item.country_lng
       }
     })
@@ -149,7 +167,16 @@ export default function BannedCSection({
 
         </EditWrapper>
 
+<SuccessDialog
+open={bannedSuccess}
+onClose={handleCloseSuccess}
+message="Country Banned Success"
+/>
 
+<ErrorDialog
+open={bannedError}
+onClose={ handleClose}
+message={'Country Already Banned'}/>
       </EditContainer>
     )
   }

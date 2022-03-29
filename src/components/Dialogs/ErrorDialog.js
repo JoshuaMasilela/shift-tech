@@ -31,11 +31,11 @@ export default function ErrorDialog({ open, onClose, message }) {
                         preserveAspectRatio: 'xMidYMid slice'
                     }
                 }}
-                height={250}
+                height={200}
                 width={250} />
             <ErrorText>
                 
-                    Card already exists, <br /> Please use a different card and try again!
+                 {message}
             </ErrorText>
         </Dialog>
     )

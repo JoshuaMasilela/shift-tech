@@ -18,6 +18,10 @@ const useForm = () => {
         cvc: '',
     });
 
+    //dialog states
+    const [bannedError, setBannedError] = useState(false);
+    const [bannedSuccess, setBannedSuccess] = useState(false);
+
     //set errors state
     const [errors, setErrors] = useState({});
     const [cardExists, setExistsAlert] = useState(false);
@@ -156,16 +160,18 @@ const useForm = () => {
     }
 
     const submitCountry = async () => {
+
         // Get array from local storage, defaulting to empty array if it's not yet set
         let countryArray = await JSON.parse(sessionStorage.getItem('blockedCountries')) ? JSON.parse(sessionStorage.getItem('blockedCountries')) : [];
         // Checking if email already exists
         if (countryArray.some(item => item.country_name === country)) {
-            alert("country blocked")
+            setBannedError(true); // set error to true
             return false; // stops the function execution
         }
+        setBannedError(false); //set error to false
         //Get Geodata
         Geocode.fromAddress(country).then(async (response) => {
-            alert(response)
+           
             const { lat, lng } = response.results[0].geometry.location;
             const name = response.results[0].address_components[0].long_name;
             const code = response.results[0].address_components[0].short_name;
@@ -181,12 +187,15 @@ const useForm = () => {
 
             //push data into array
             await countryArray.push(countryInfo)
-
+            setBannedSuccess(true)
             //add new data to array
             await sessionStorage.setItem('blockedCountries', JSON.stringify(countryArray));
+            setTimeout(() => {
+                setBannedSuccess(false);
+                //refresh page
+                window.location.reload();
+            }, 3000)
 
-            //refresh page
-            window.location.reload();
         });
         return false;
     }
@@ -205,10 +214,14 @@ const useForm = () => {
         setSuccessAlert,
         setVerifation,
         setSubmitInfo,
+        setBannedError,
+        setBannedSuccess,
         onCountryChange,
         values,
         errors,
         cardExists,
+        bannedError,
+        bannedSuccess,
         cardAdded,
         loadingVerification,
         submitInfo,

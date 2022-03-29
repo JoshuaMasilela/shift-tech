@@ -184,26 +184,14 @@ export default function AddCardSection({
             </BtnWrap>
             <ErrorDialog
               open={cardExists}
-              onClose={handleClose} />
+              onClose={handleClose}
+              message={<div>Card already exists, <br /> Please use a different card and try again!</div>} />
 
             <SuccessDialog
               open={cardAdded}
-              onClose={handleCloseSuccess} />
-            {/* <Dialog open={cardExists} onClose={handleClose}>
-
-            <Lottie
-            options={{
-              loop: true,
-              autoplay: true,
-              animationData: ErrorLottie,
-              renderSettings: {
-                preserveAspectRatio: 'xMidYMid slice'
-              }
-            }}
-            height={260}
-            width={260} />
-              <ErrorText>Card with this number already exits... Please try different card!</ErrorText>
-            </Dialog> */}
+              onClose={handleCloseSuccess}
+              message={'Card successfully added!!'} />
+     
 
             {
               !loadingVerification &&
