@@ -53,7 +53,8 @@ export const smlWidgetObj = {
           id: params.row.id,
           card_number:params.row.unmasked_card_number,
           cvv:params.row.unmasked_card_cvv,
-          expiry_date:params.row.unmasked_card_exp_dat
+          expiry_date:params.row.unmasked_card_exp_date,
+          country_code: params.row.country_code
         };
        
         //get index of object
@@ -82,6 +83,7 @@ export const smlWidgetObj = {
                 ms_cvv: params.row.cvc,
                 ms_exp_date: params.row.expiry_date,
                 timeStamp: params.row.timeStamp,
+                country_code: params.row.country_code,
 
                 card_cvc: params.row.unmasked_card_cvv,
                 card_exp: params.row.unmasked_card_exp_date,
@@ -113,9 +115,9 @@ export const smlWidgetObj = {
       }
     },
     {
-      field: 'timeStamp',
-      headerName: 'Created At',
-      width: 200
+      field: 'country_code',
+      headerName: 'Country Code',
+      width: 110
     },
   ],
 
@@ -157,4 +159,11 @@ big: false,
   subHeader1:'Card Number',
   subHeader2: 'Card Cvv',
   subHeader3: 'Expiry Date',
+}
+
+//globeobject
+
+export const globeObj={
+  height: '80vh',
+  width: '100%'
 }

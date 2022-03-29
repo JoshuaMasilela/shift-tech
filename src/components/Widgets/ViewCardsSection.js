@@ -41,6 +41,7 @@ export default function ViewCardsSection({
         id: index ? index : 0,
         cardHolder: item.name,
         cardNumber: masked_card_number,
+        country_code: item.country_code,
         timeStamp: moment(item.timestamp).format("DD-MM-YY HH:mm:ss A"),
         updatedAt: moment(item.updatedAt).format("DD-MM-YY HH:mm:ss A"),
         //not displayed but passed for edit screen

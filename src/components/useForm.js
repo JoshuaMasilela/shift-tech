@@ -3,6 +3,7 @@ import validateInfo from "./validateInfo";
 import CryptoJS from 'crypto-js';
 import { decryptKey } from './ObjData';
 
+import Geocode from "react-geocode";
 const useForm = () => {
 
 
@@ -16,11 +17,6 @@ const useForm = () => {
         exp: '',
         cvc: '',
     });
-
-    const checkErrors = (e) => {
-
-        return false;
-    }
 
     //set errors state
     const [errors, setErrors] = useState({});
@@ -40,6 +36,11 @@ const useForm = () => {
         });
         console.log(update)
     }, [setSubmitInfo])
+
+    const onCountryChange = (e) => {
+
+        setCountry(e)
+    }
     //handle card inputs value change
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -91,6 +92,7 @@ const useForm = () => {
             // create values as objects
             const cardInfo = {
                 name: values.name,
+                country_code: country,
                 card_number: card_number,
                 cvv: card_cvc,
                 expiry_date: card_exp_date,
@@ -135,7 +137,85 @@ const useForm = () => {
         return false;
     };
 
-    return { handleChange, handleSubmit, handleVerification, setExistsAlert, setSuccessAlert, setVerifation, setSubmitInfo, values, errors, cardExists, cardAdded, loadingVerification, submitInfo };
+    // banned
+
+    // set Google Maps Geocoding API.
+    Geocode.setApiKey("AIzaSyATw-3YDgm-0Di7FjLaN5lwu_ZqLB8tv74");
+
+    // set response language. Defaults to english.
+    Geocode.setLanguage("en");
+
+    // set response region. Its optional.
+    // A Geocoding request with region=es (Spain) will return the Spanish city.
+    Geocode.setRegion("es");
+
+    const [country, setCountry] = useState('');
+
+    const handleCountryChange = (e) => {
+        setCountry(e)
+    }
+
+    const submitCountry = async () => {
+        // Get array from local storage, defaulting to empty array if it's not yet set
+        let countryArray = await JSON.parse(sessionStorage.getItem('blockedCountries')) ? JSON.parse(sessionStorage.getItem('blockedCountries')) : [];
+        // Checking if email already exists
+        if (countryArray.some(item => item.country_name === country)) {
+            alert("country blocked")
+            return false; // stops the function execution
+        }
+        //Get Geodata
+        Geocode.fromAddress(country).then(async (response) => {
+            alert(response)
+            const { lat, lng } = response.results[0].geometry.location;
+            const name = response.results[0].address_components[0].long_name;
+            const code = response.results[0].address_components[0].short_name;
+            console.log(name, code);
+
+
+            console.log(name)
+            //             // create values as objects
+            const countryInfo = {
+                country_name: name,
+                country_code: code,
+                country_lat: lat,
+                country_lng: lng,
+                timestamp: new Date(),
+            };
+
+            //push data into array
+            await countryArray.push(countryInfo)
+
+             //add new data to array
+            await sessionStorage.setItem('blockedCountries', JSON.stringify(countryArray));
+      
+        });
+        return false;
+    }
+
+    const handleCountrySubmit = async (e) => {
+        await e.preventDefault();
+        submitCountry();
+    }
+    return {
+        handleChange,
+        handleCountryChange,
+        handleSubmit,
+        handleCountrySubmit,
+        handleVerification,
+        setExistsAlert,
+        setSuccessAlert,
+        setVerifation,
+        setSubmitInfo,
+        onCountryChange,
+        values,
+        errors,
+        cardExists,
+        cardAdded,
+        loadingVerification,
+        submitInfo,
+        country,
+    };
 }
+
 
 export default useForm;

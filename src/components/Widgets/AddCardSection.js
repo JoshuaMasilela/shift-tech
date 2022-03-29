@@ -6,11 +6,11 @@ import 'react-credit-cards/es/styles-compiled.css';
 import { SubmitCardButton } from '../ButtonElements';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-
 //import animation from animations folder
 import ErrorDialog from '../Dialogs/ErrorDialog';
 import SuccessDialog from '../Dialogs/SuccessDialog'
   ;
+import { stepConnectorClasses } from '@mui/material';
 export default function AddCardSection({
   title,
   primary,
@@ -22,8 +22,20 @@ export default function AddCardSection({
   const [updateState, setUpdateState] = useState(false);
 
   //custom hooks
-  const { handleChange, handleSubmit, handleVerification, setExistsAlert, setSuccessAlert, setSubmitInfo,
-    values, errors, cardExists, cardAdded, loadingVerification, submitInfo } = useForm();
+  const { 
+    handleChange, 
+    handleSubmit, 
+    handleVerification, 
+    setExistsAlert, 
+    setSuccessAlert,
+    onCountryChange,
+    values,
+     errors, 
+    cardExists, 
+    cardAdded, 
+    loadingVerification, 
+    country
+   } = useForm();
 
   const loadingState = loadingVerification;
   //handle error dialog close 
@@ -32,13 +44,13 @@ export default function AddCardSection({
     return false; // stops function
   };
 
-  useEffect(() =>{
-    setUpdateState(currentState =>{
+  useEffect(() => {
+    setUpdateState(currentState => {
       var changeState
-      currentState =changeState
+      currentState = changeState
       return currentState
     })
-  },[])
+  }, [])
   //close success dialog
   const handleCloseSuccess = () => {
     setSuccessAlert(false);
@@ -62,6 +74,11 @@ export default function AddCardSection({
       <CardWrapper>
         <CardContainer>
           <Form onSubmit={updateState ? handleSubmit : handleVerification}>
+
+          <FormInputWrap>
+              
+              </FormInputWrap>
+
             <FormInputWrap>
               <FormInput
                 type='text'
@@ -94,6 +111,7 @@ export default function AddCardSection({
               />
             </FormInputWrap>
             <FormContent>
+            
               <FormInputWrap>
                 <FormContentInput
                   type="text"
@@ -135,31 +153,31 @@ export default function AddCardSection({
                   </LoadingVerificationWrapper>
 
                   :
-               
-                    <SubmitCardButton
+
+                  <SubmitCardButton
                     onClick={() => {
-                      if(errors.variant === 'success'){
+                      if (errors.variant === 'success') {
                         setUpdateState(true)
-                      }else{
+                      } else {
                         setUpdateState(false)
                       }
                       return false;
                     }
-                
-                  }
-                      type="submit"
-                      primary={primary ? 1 : 0}
-                      dark={dark ? 1 : 0}
-                      fontBig={fontBig ? 1 : 0}
-                      big={big ? 1 : 0}>
-                      {
-                         updateState?
-                          "Submit Credit Card Details" :"Verify Credit Card Details"
-               }
-                    </SubmitCardButton>
-        }
-   
-             
+
+                    }
+                    type="submit"
+                    primary={primary ? 1 : 0}
+                    dark={dark ? 1 : 0}
+                    fontBig={fontBig ? 1 : 0}
+                    big={big ? 1 : 0}>
+                    {
+                      updateState ?
+                        "Submit Credit Card Details" : "Verify Credit Card Details"
+                    }
+                  </SubmitCardButton>
+              }
+
+
 
 
 
