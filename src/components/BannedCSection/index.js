@@ -6,73 +6,41 @@ import {
   EditContainer,
   EditRow,
   EditWrapper,
-  DropwDown
+  DropwDown,
+  Heading,
+  BannedListWrapper
 } from './BannedElements';
+import { DataGrid } from '@mui/x-data-grid';
 import ReactGlobe from 'react-globe';
 
 // import optional tippy styles for tooltip support
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
-import Geocode from "react-geocode";
 import { SubmitCardButton } from '../ButtonElements';
-import { CircularProgress } from '@mui/material';
 import useForm from '../useForm';
 
+//fetch card details from session storage return as JSON
+let data = JSON.parse(sessionStorage.getItem('blockedCountries'));
 
 export default function BannedCSection({
   width,
-  height
+  height,
+  addTitle,
+  viewTitle,
+  columns
 }) {
 
-  //fetch card details from session storage return as JSON
-let data = JSON.parse(sessionStorage.getItem('blockedCountries'));
+  //set document title
+  document.title = "Banned Countries";
+  const {
+    handleCountrySubmit,
+    handleCountryChange,
+    country
+  } = useForm();
 
+  const [globe, setGlobe] = useState(null);
+  console.log(globe); // captured globe instance with API methods
 
-  // support rendering markers with simple data
-  const markers = [
-    {
-      id: 'marker1',
-      city: 'Singapore',
-      color: 'red',
-      coordinates: [1.3521, 103.8198],
-      value: 50,
-    },
-    {
-      id: 'marker2',
-      city: 'New York',
-      color: 'red',
-      coordinates: [40.73061, -73.935242],
-      value: 25,
-    },
-    {
-      id: 'marker3',
-      city: 'San Francisco',
-      color: 'red',
-      coordinates: [37.773972, -122.431297],
-      value: 35,
-    },
-    {
-      id: 'marker4',
-      city: 'Beijing',
-      color: 'red',
-      coordinates: [39.9042, 116.4074],
-      value: 135,
-    },
-    {
-      id: 'marker5',
-      city: 'London',
-      color: 'red',
-      coordinates: [51.5074, 0.1278],
-      value: 80,
-    },
-    {
-      id: 'marker6',
-      city: 'Los Angeles',
-      color: 'red',
-      coordinates: [29.7604, -95.3698],
-      value: 54,
-    },
-  ];
 
   // simple and extensive options to configure globe
   const options = {
@@ -84,114 +52,106 @@ let data = JSON.parse(sessionStorage.getItem('blockedCountries'));
     markerTooltipRenderer: marker => `${marker.city} (${marker.value})`,
   };
 
+  if (!data) {
+    return (
 
-  const {
-    handleCountrySubmit,
-    handleCountryChange,
-    country
-  } = useForm();
-  const [globe, setGlobe] = useState(null);
-  console.log(globe); // captured globe instance with API methods
+      <EditContainer>
 
-  // const blockCountry = async () => {
-  
-  //   try {
-  //     if (selected !== '') {
-  //       setLoading(true);
-  //       // Get array from local storage, defaulting to empty array if it's not yet set
-  //       let countriesArray = await JSON.parse(sessionStorage.getItem('blockedCountries')) ? JSON.parse(sessionStorage.getItem('blockedCountries')) : [];
+        <EditWrapper>
 
-  //       console.log("Countries array error: "+countriesArray ?countriesArray : 'Array empty')
-  //         // Checking if email already exists
-  //         if (countriesArray.some(country => country.country_name === selected)) {
-
-  //           alert('country already blocked')
-  //           return false; // stops the function execution
-  //         }
-  //         // geocode location
-  //          Geocode.fromAddress(selected).then(
-  //           async (response) => {
-  //             const { lat, lng } = response.results[0].geometry.location;
-  //             const { name } = response.results[0].address_components[0].long_name;
-  //             const { code } = response.results[0].address_components[0].short_name
-  //    console.log(name)
-  //             // create values as objects
-  //             const countryInfo = {
-  //               country_name: name,
-  //               country_code: code,
-  //               country_lat: lat,
-  //               country_lng: lng,
-  //               timestamp: new Date(),
-  //             };
-  //             console.log(countryInfo)
+          <EditRow>
+            <Column1>
+              <Heading >{addTitle}</Heading>
+              <CountryForm onSubmit={handleCountrySubmit}>
+                <DropwDown
+                  value={country}
+                  onChange={handleCountryChange} />
 
 
-  //             //push data into array
-  //             await countriesArray.push(countryInfo)
+                <SubmitCardButton type={'submit'}>Submit Country</SubmitCardButton>
 
-  //             //add new data to array
-  //             await sessionStorage.setItem('blockedCountries', JSON.stringify(countryInfo));
-             
-  //             setLoading(false)
-  //             //refresh page
-  //             window.location.reload();
-  //           },
-  //           (error) => {
-  //             console.error(error);
-  //           }
-  //         ).catch((err) => {
-  //           console.log("Geocode error: " + err)
-  //         });
-
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     console.log("Error blocking country: " + error)
-  //   }
-  // }
-
-  //handle submit
-  // const handleSubmit = async(e) => {
-  //   e.preventDefault();
-  //  await blockCountry();
-  // }
-  return (
-    <EditContainer>
-
-      <EditWrapper>
-
-        <EditRow>
-          <Column1>
-
-            <CountryForm onSubmit={handleCountrySubmit}>
-              <DropwDown
-                value={country}
-                onChange={handleCountryChange} />
+              </CountryForm>
 
 
- <SubmitCardButton type={'submit'}>Submit Country</SubmitCardButton>
+            </Column1>
 
-            </CountryForm>
+            <Column2>
+              <Heading>{viewTitle}</Heading>
+              <ReactGlobe
+                height={height}
+                width={window.screen.width / 2}
+                options={options}
+                onGetGlobe={setGlobe}
+                onClickMarker={(marker, markerObject, event) => console.log(marker, markerObject, event)}
+              />
+            </Column2>
+          </EditRow>
 
-
-          </Column1>
-
-          <Column2>
-
-            <ReactGlobe
-              height={height}
-              width={window.screen.width / 2}
-              markers={markers}
-              options={options}
-              onGetGlobe={setGlobe}
-              onClickMarker={(marker, markerObject, event) => console.log(marker, markerObject, event)}
-            />
-          </Column2>
-        </EditRow>
-
-      </EditWrapper>
+        </EditWrapper>
 
 
-    </EditContainer>
-  )
+      </EditContainer>
+    )
+  } else {
+    //if data exists map it out
+    const markers = data.map((item, index) => {
+
+      return {
+        id: index,
+        city: item.country_name,
+        color: 'red',
+        coordinates: [item.country_lat, item.country_lng],
+        value: 150,
+        code: item.country_code,
+        latlng: item.country_lat + ", " + item.country_lng
+      }
+    })
+    return (
+      <EditContainer>
+
+        <EditWrapper>
+
+          <EditRow>
+            <Column1>
+              <Heading>{addTitle}</Heading>
+              <CountryForm onSubmit={handleCountrySubmit}>
+                <DropwDown
+                  value={country}
+                  onChange={handleCountryChange} />
+
+                <SubmitCardButton type={'submit'}>Submit Country</SubmitCardButton>
+
+              </CountryForm>
+            </Column1>
+
+            <Column2>
+              <Heading>{viewTitle}</Heading>
+              <ReactGlobe
+                height={height}
+                width={window.screen.width / 2}
+                markers={markers}
+                options={options}
+                onGetGlobe={setGlobe}
+                onClickMarker={(marker, markerObject, event) => console.log(marker, markerObject, event)}
+              />
+
+              <BannedListWrapper>
+                <DataGrid
+                  columns={columns}
+                  rows={markers}
+                  pageSize={6}
+                  rowsPerPageOptions={[6]}
+                  checkboxSelection
+                  disableSelectionOnClick />
+              </BannedListWrapper>
+            </Column2>
+          </EditRow>
+
+        </EditWrapper>
+
+
+      </EditContainer>
+    )
+  }
+
 }

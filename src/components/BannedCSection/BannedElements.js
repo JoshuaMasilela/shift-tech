@@ -45,13 +45,6 @@ export const ContentWrap = styled.div`
 display: flex;
 align-items:center;
 `;
-
-export const Eye = styled(IoEyeSharp)`
-margin-left: 5px;
-font-size: 2rem;
-cursor: pointer;
-`
-
 export const EditRow = styled.div`
 display: grid;
 grid-auto-columns: minmax(auto, 1fr);
@@ -95,7 +88,7 @@ padding-bottom:: 60px;
 `;
 
 export const Heading = styled.h1`
-color: ${({ lightTextDesc }) => (lightTextDesc ? '#ffffff' : '#010606')};
+color: #010606;
 font-size:: 58px;
 line-height: 1.1;
 font-weight: 600;
@@ -105,5 +98,11 @@ margin-bottom: 24px;
 }
 `;
 
-
-
+export const BannedListWrapper = styled.div`
+display: flex;
+margin: 5px;
+align-items: center;
+justify-content: center;
+height: 50vh;
+width: 100%
+`;

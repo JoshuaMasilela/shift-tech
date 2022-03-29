@@ -164,6 +164,75 @@ big: false,
 //globeobject
 
 export const globeObj={
-  height: '80vh',
-  width: '100%'
-}
+  height: '70vh',
+  width: '100%',
+  viewTitle: "View Banned Countries",
+  addTitle: 'Select Country To Ban.',
+  columns: [
+    { 
+      field: 'id', 
+      headerName: 'ID', 
+      width: 10,
+    },
+    {
+      field: 'city',
+      headerName: 'Country Name',
+      width: 140,
+      sortable: true,
+    },
+    {
+      field: 'latlng',
+      headerName: 'Coordinates',
+      width: 190
+    },
+
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      sortable: false,
+      width: 90,
+      renderCell: (params) => {
+      
+      const removeItem = async () =>{
+
+        //get items from session storage
+        let items = await JSON.parse(sessionStorage.getItem('blockedCountries'));
+  
+        //construct object
+        const cardObj = {
+          id: params.row.id,
+          city:params.row.city,
+          coordinates:params.row.coordinates,
+      
+        };
+
+     
+        //get index of object
+        const index = items.indexOf(cardObj.city);
+
+        console.log(index)
+        //splice array at index of object
+        items.splice(index, 1);
+
+        //save back to session storage
+       await sessionStorage.setItem('blockedCountries', JSON.stringify(items));
+
+    }
+
+        return (
+          <ActionsContainer>
+            {/* pass card details to edit user screen as parameters */}
+          
+
+            <ActionToolTip title="Delete User Info.">
+              <IconButton onClick={removeItem}>
+                <DeleteAction  />
+              </IconButton>
+            </ActionToolTip>
+
+          </ActionsContainer>
+        )
+      }
+    },
+  ],
+};

@@ -180,11 +180,13 @@ const useForm = () => {
             };
 
             //push data into array
-         await countryArray.push(countryInfo)
+            await countryArray.push(countryInfo)
 
             //add new data to array
             await sessionStorage.setItem('blockedCountries', JSON.stringify(countryArray));
 
+            //refresh page
+            window.location.reload();
         });
         return false;
     }
