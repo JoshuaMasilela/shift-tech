@@ -169,11 +169,8 @@ const useForm = () => {
             const { lat, lng } = response.results[0].geometry.location;
             const name = response.results[0].address_components[0].long_name;
             const code = response.results[0].address_components[0].short_name;
-            console.log(name, code);
 
-
-            console.log(name)
-            //             // create values as objects
+            // create values as objects
             const countryInfo = {
                 country_name: name,
                 country_code: code,
@@ -183,11 +180,11 @@ const useForm = () => {
             };
 
             //push data into array
-            await countryArray.push(countryInfo)
+         await countryArray.push(countryInfo)
 
-             //add new data to array
+            //add new data to array
             await sessionStorage.setItem('blockedCountries', JSON.stringify(countryArray));
-      
+
         });
         return false;
     }

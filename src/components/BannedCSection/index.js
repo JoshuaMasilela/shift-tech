@@ -24,6 +24,10 @@ export default function BannedCSection({
   height
 }) {
 
+  //fetch card details from session storage return as JSON
+let data = JSON.parse(sessionStorage.getItem('blockedCountries'));
+
+
   // support rendering markers with simple data
   const markers = [
     {
