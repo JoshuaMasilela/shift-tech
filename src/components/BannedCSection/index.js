@@ -41,25 +41,24 @@ export default function BannedCSection({
     setBannedSuccess,
     bannedError,
     bannedSuccess,
-    country
+    country,
+    bannedMessage
   } = useForm();
 
-    //close success dialog
-    const handleCloseSuccess = () => {
-      setBannedSuccess(false);
-      return false; // stop function
-    }
+  //close success dialog
+  const handleCloseSuccess = () => {
+    setBannedSuccess(false);
+    return false; // stop function
+  }
 
-      //handle error dialog close 
+  //handle error dialog close 
   const handleClose = () => {
     setBannedError(false);
     return false; // stops function
   };
 
   const [globe, setGlobe] = useState(null);
-  console.log(globe); // captured globe instance with API methods
-
-
+ 
   // simple and extensive options to configure globe
   const options = {
     cameraRotateSpeed: 0.5,
@@ -72,11 +71,9 @@ export default function BannedCSection({
 
   if (!data) {
     return (
-
       <EditContainer>
 
         <EditWrapper>
-
           <EditRow>
             <Column1>
               <Heading >{addTitle}</Heading>
@@ -84,12 +81,9 @@ export default function BannedCSection({
                 <DropwDown
                   value={country}
                   onChange={handleCountryChange} />
-
-
                 <SubmitCardButton type={'submit'}>Submit Country</SubmitCardButton>
 
               </CountryForm>
-
 
             </Column1>
 
@@ -104,10 +98,7 @@ export default function BannedCSection({
               />
             </Column2>
           </EditRow>
-
         </EditWrapper>
-
-
       </EditContainer>
     )
   } else {
@@ -120,7 +111,7 @@ export default function BannedCSection({
         color: 'red',
         coordinates: [item.country_lat, item.country_lng],
         code: item.country_code,
-        value:index,
+        value: index,
         latlng: item.country_lat + ", " + item.country_lng
       }
     })
@@ -167,16 +158,16 @@ export default function BannedCSection({
 
         </EditWrapper>
 
-<SuccessDialog
-open={bannedSuccess}
-onClose={handleCloseSuccess}
-message="Country Banned Success"
-/>
+        <SuccessDialog
+          open={bannedSuccess}
+          onClose={handleCloseSuccess}
+          message="Country Banned Success"
+        />
 
-<ErrorDialog
-open={bannedError}
-onClose={ handleClose}
-message={'Country Already Banned'}/>
+        <ErrorDialog
+          open={bannedError}
+          onClose={handleClose}
+          message={"bannedMessage"} />
       </EditContainer>
     )
   }

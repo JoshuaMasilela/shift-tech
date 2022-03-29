@@ -1,6 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import useForm from '../useForm';
-import { AddCardContainer, AddCardTitle, BtnWrap, CardContainer, CardWrapper, ErrorText, Form, FormContent, FormContentInput, FormInput, FormInputWrap, LoadingText, LoadingVerificationWrapper } from './Elements/AddCardElements';
+import {
+  AddCardContainer,
+  AddCardTitle,
+  BtnWrap,
+  CardContainer,
+  CardWrapper,
+  Form,
+  FormContent,
+  FormContentInput,
+  FormInput,
+  FormInputWrap,
+  LoadingText,
+  LoadingVerificationWrapper,
+  DropwDown
+} from './Elements/AddCardElements';
 import Cards from 'react-credit-cards'; //install using --legacy-peer-deps
 import 'react-credit-cards/es/styles-compiled.css';
 import { SubmitCardButton } from '../ButtonElements';
@@ -22,25 +36,30 @@ export default function AddCardSection({
   const [updateState, setUpdateState] = useState(false);
 
   //custom hooks
-  const { 
-    handleChange, 
-    handleSubmit, 
-    handleVerification, 
-    setExistsAlert, 
+  const {
+    handleChange,
+    handleSubmit,
+    handleVerification,
+    setExistsAlert,
     setSuccessAlert,
-    onCountryChange,
+    setBannedError,
+    handleCountryChange,
     values,
-     errors, 
-    cardExists, 
-    cardAdded, 
-    loadingVerification, 
-    country
-   } = useForm();
+    errors,
+    cardExists,
+    cardAdded,
+    loadingVerification,
+    country,
+    existMessage,
+    bannedError,
+    bannedMessage
+  } = useForm();
 
   const loadingState = loadingVerification;
   //handle error dialog close 
   const handleClose = () => {
     setExistsAlert(false);
+    setBannedError(false);
     return false; // stops function
   };
 
@@ -75,9 +94,12 @@ export default function AddCardSection({
         <CardContainer>
           <Form onSubmit={updateState ? handleSubmit : handleVerification}>
 
-          <FormInputWrap>
-              
-              </FormInputWrap>
+            <FormInputWrap>
+              <DropwDown
+                value={country}
+                onChange={handleCountryChange} />
+
+            </FormInputWrap>
 
             <FormInputWrap>
               <FormInput
@@ -111,7 +133,7 @@ export default function AddCardSection({
               />
             </FormInputWrap>
             <FormContent>
-            
+
               <FormInputWrap>
                 <FormContentInput
                   type="text"
@@ -183,19 +205,19 @@ export default function AddCardSection({
 
             </BtnWrap>
             <ErrorDialog
-              open={cardExists}
+              open={cardExists ? cardExists : bannedError}
               onClose={handleClose}
-              message={<div>Card already exists, <br /> Please use a different card and try again!</div>} />
+              message={existMessage? existMessage : bannedMessage} />
 
             <SuccessDialog
               open={cardAdded}
               onClose={handleCloseSuccess}
               message={'Card successfully added!!'} />
-     
+
 
             {
               !loadingVerification &&
-              errors.message && <Alert severity={errors.variant}>{errors.message}</Alert>
+              bannedError && <Alert severity={errors.variant}>{bannedMessage}</Alert>
 
             }
 

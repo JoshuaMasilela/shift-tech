@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import TextField from '@mui/material/TextField';
+import { CountryDropdown } from 'react-country-region-selector';
 
 export const AddCardContainer = styled.div`;
 flex:2;
@@ -76,5 +77,11 @@ justify-content: center;
 export const LoadingText = styled.p`
 font-size: .78rem;
 margin: 3px;
+`;
+
+export const DropwDown = styled(CountryDropdown)`
+width: 100%;
+height: 50px;
+border-radius: 5px;
 `;
 

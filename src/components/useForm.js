@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import validateInfo from "./validateInfo";
 import CryptoJS from 'crypto-js';
 import { decryptKey } from './ObjData';
-
 import Geocode from "react-geocode";
+
 const useForm = () => {
-
-
     //get encryption env key
     const SECRET_KEY = decryptKey.key;
 
@@ -21,6 +19,9 @@ const useForm = () => {
     //dialog states
     const [bannedError, setBannedError] = useState(false);
     const [bannedSuccess, setBannedSuccess] = useState(false);
+    const [matchError, setMatchError] = useState(false);
+    const [existMessage, setExistMessage] =useState('');
+    const [bannedMessage, setBannedMsg] = useState('');
 
     //set errors state
     const [errors, setErrors] = useState({});
@@ -56,8 +57,8 @@ const useForm = () => {
 
     const verifyInfo = async (e) => {
 
-        await setVerifation(true)
-        await setVerifation(true)
+        await setVerifation(true);
+
         setTimeout(async () => {
             await setErrors(validateInfo(values));
             await setVerifation(false);
@@ -73,19 +74,28 @@ const useForm = () => {
     const storeInfo = async () => {
 
         try {
-
+            // Get array from local storage, defaulting to empty array if it's not yet set
+            let countryArray = await JSON.parse(sessionStorage.getItem('blockedCountries')) ? JSON.parse(sessionStorage.getItem('blockedCountries')) : [];
+            // Checking if country already exists
+            if (countryArray.some(item => item.country_name === country)) {
+               setBannedError(true);
+               setBannedMsg("Your country has been banned");
+                return false; // stops the function execution
+            }
+            setBannedError(false)
 
             // Get array from local storage, defaulting to empty array if it's not yet set
             let itemsArray = await JSON.parse(sessionStorage.getItem('cardDetails')) ? JSON.parse(sessionStorage.getItem('cardDetails')) : [];
-            // Checking if email already exists
+            // Checking if card number already exists
             if (itemsArray.some(user => CryptoJS.AES.decrypt(user.card_number, decryptKey.key).toString(CryptoJS.enc.Utf8) === values.number)) {
-
+                setExistMessage(<div>Card already exists, <br /> Please use a different card and try again!</div>)
                 setExistsAlert(true);
                 return false; // stops the function execution
             }
 
-            setExistsAlert(false);
-            setErrors({});
+            setExistsAlert(false); // set errors
+            setErrors({}); // set errors
+
             // encrypt card number
             // encrypt card cvc
             // encrypt card expiry_date
@@ -96,14 +106,13 @@ const useForm = () => {
             // create values as objects
             const cardInfo = {
                 name: values.name,
-                country_code: country,
+                country_name: country,
                 card_number: card_number,
                 cvv: card_cvc,
                 expiry_date: card_exp_date,
                 timestamp: new Date(),
                 updatedAt: new Date(),
             };
-
 
             //push encrypted data into array
             await itemsArray.push(cardInfo)
@@ -115,8 +124,6 @@ const useForm = () => {
             //refresh page
             window.location.reload();
             return false;
-
-
 
         } catch (error) {
             console.log(error);
@@ -141,8 +148,6 @@ const useForm = () => {
         return false;
     };
 
-    // banned
-
     // set Google Maps Geocoding API.
     Geocode.setApiKey("AIzaSyATw-3YDgm-0Di7FjLaN5lwu_ZqLB8tv74");
 
@@ -156,7 +161,7 @@ const useForm = () => {
     const [country, setCountry] = useState('');
 
     const handleCountryChange = (e) => {
-        setCountry(e)
+        setCountry(e);
     }
 
     const submitCountry = async () => {
@@ -166,12 +171,13 @@ const useForm = () => {
         // Checking if email already exists
         if (countryArray.some(item => item.country_name === country)) {
             setBannedError(true); // set error to true
+            setBannedMsg("Country already banned")// message to pass to error comp
             return false; // stops the function execution
         }
         setBannedError(false); //set error to false
         //Get Geodata
         Geocode.fromAddress(country).then(async (response) => {
-           
+
             const { lat, lng } = response.results[0].geometry.location;
             const name = response.results[0].address_components[0].long_name;
             const code = response.results[0].address_components[0].short_name;
@@ -215,8 +221,10 @@ const useForm = () => {
         setVerifation,
         setSubmitInfo,
         setBannedError,
+        setMatchError,
         setBannedSuccess,
         onCountryChange,
+        setBannedMsg,
         values,
         errors,
         cardExists,
@@ -226,8 +234,10 @@ const useForm = () => {
         loadingVerification,
         submitInfo,
         country,
+        matchError,
+        bannedMessage,
+        existMessage
     };
 }
-
 
 export default useForm;
